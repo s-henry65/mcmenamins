@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-sm p-4">
+
+<h3>Contacts</h3>
+
+{% for employee in staff %}
+<div class="mb-4 p-2 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+{{ employee.last_name}}, {{ employee.first_name}} •  {{ employee.phone_num}}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

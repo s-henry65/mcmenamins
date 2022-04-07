@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-sm">
+    <div class="p-2">
+        <form action="{%url 'search_routes' %}" method="POST">
+            {% csrf_token %}
+            <div>
+                <h3 class="mb-2"> Search Routes</h3>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Truck Number</span>
+                    <select name="truck_num" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
+                        <option>Select</option>
+                        <option value="1">Truck 1</option>
+                        <option value="2">Truck 2</option>
+                        <option value="3">Truck 3</option>
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Day</span>
+                    <select name="day" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
+                        <option >Select</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                        <option value="Sunday">Sunday</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="mb-4 btn btn-outline-success">Submit</button>
+        </form>
+        {% if day_route %}
+        {% for route in day_route %}
+        <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+            
+            Truck {{route.truck_num}} • {{route.day}}<br>
+
+            Drivers
+            {% for driver in route.drivers.all %}
+            • {{driver}}
+            {% endfor %}
+            <br>
+            Properties •
+            {% for property in route.properties.all %}
+            <a href="{% url 'prop_details' property.id%}" class="btn btn-outline-success m-2">{{property}}</a>
+            {% endfor %}
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-warning bg-opacity-25" role="alert">
+                No trucks on this route.
+              </div>
+            
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

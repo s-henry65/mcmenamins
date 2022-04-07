@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-sm">
+  <div class=p-2>
+    <h3>Post</h3>
+    <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+      {{ article.author }}<br />
+      {{ article.pub_date }}<br />
+      <p class="text-decoration-underline">{{ article.title }}</p>
+      {{ article.text }}
+    </div>
+    <h3>Comments</h3>
+    {% for comment in comments %}
+    <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+      {{ comment.author }}<br />
+      <p>{{ comment.date_posted }}</p>
+      {{ comment.content }}<br />
+    </div>
+      {% endfor %}
+      <a href="javascript:history.back()" class="mb-4 btn btn-outline-success">Go Back</a>
+    <form action="{% url 'details' article.id %}" method="POST">
+      {% csrf_token %}
+      <h3>Post a Comment</h3>
+      
+      <div class="input-group mb-4">
+        <span class="input-group-text">Comment</span>
+        <textarea class="form-control bg-secondary text-white bg-opacity-25" rows="5" name="content"
+          aria-label="With textarea"></textarea>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+        <input type="date" name="date_posted" class="form-control bg-secondary text-white bg-opacity-25"
+          aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text" id="inputGroup-sizing-default">Author</span>
+        <select name="author" class="form-control bg-secondary text-white bg-opacity-25"
+          aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+          {%for author in authors%}
+          <option value="{{author.id}}">{{author}}</option>
+          {% endfor %}
+        </select>
+      </div>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+
+      
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %}
