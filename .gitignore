@@ -1,3 +1,4 @@
 .env
 key.js
 key.json
+db.sqlite3
