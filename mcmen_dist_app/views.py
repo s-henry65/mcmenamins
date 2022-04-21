@@ -43,61 +43,6 @@ def logout_user(request):
     logout(request)
     return redirect('landing')
 
-def admin_page(request):
-    return render(request, 'pages/admin_page.html')
-
-def add_property(request):
-    if request.method == 'GET': 
-        return render(request, 'pages/add_property.html')
-    elif request.method == 'POST': 
-        code = request.POST['code']
-        latitude = request.POST['latitude']
-        longitude = request.POST['longitude']   
-        name = request.POST['name']
-        phone_num = request.POST['phone_num']
-        address = request.POST['address']
-        city = request.POST['city']
-        state = request.POST['state']
-        zipcode = request.POST['zipcode']
-        manager = request.POST['manager']
-        brewer = request.POST['brewer']
-        delivery = request.POST['delivery']
-        notes = request.POST['notes']
-        Property.objects.create(code = code, latitude = latitude, longitude = longitude, name = name, address = address,
-        city = city, state = state, zipcode = zipcode, manager = manager, 
-        brewer = brewer, delivery = delivery, notes = notes, phone_num = phone_num)
-        return redirect('admin_page')
-
-def add_driver(request):
-    if request.method == 'GET': 
-        return render(request, 'pages/add_driver.html')
-    elif request.method == 'POST': 
-        first_name = request.POST['first_name']  
-        last_name = request.POST['last_name']
-        name = list(last_name)
-        nick_name = first_name + '.' + name[0]
-        phone_num = request.POST['phone_num']
-        Driver.objects.create(first_name = first_name, last_name = last_name, 
-        nick_name = nick_name, phone_num = phone_num)
-        return redirect('admin_page')
-
-def add_route(request):
-    props = Property.objects.all()
-    drivers = Driver.objects.all()
-    context = {'props': props, 'drivers': drivers}
-    if request.method == 'GET':
-        return render(request, 'pages/add_route.html', context) 
-    elif request.method == 'POST':
-        truck_num = request.POST['truck_num']
-        day = request.POST['day']
-        # for x in drivers:
-        drivers = Driver.objects.get(id=request.POST['drivers'])
-        properties = Property.objects.get(id=request.POST['properties'])
-        print('LOOK HERE!',drivers, properties)
-        Route.objects.create(truck_num = truck_num, drivers = drivers, 
-        day = day, properties = properties)
-        return redirect('admin_page')
-
 def all_routes(request):
   routes = Route.objects.all()
   props = Property.objects.all()
