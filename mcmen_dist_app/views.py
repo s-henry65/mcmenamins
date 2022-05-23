@@ -11,6 +11,7 @@ from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Route
 from mcmen_dist_app.models import Article, PostComment
 from mcmen_dist_app.models import Images
+from mcmen_inventory_app.models import Kegs
 from decouple import config
 
 #--> Rest
@@ -19,7 +20,6 @@ from rest_framework import serializers, status
 from .serializers import PropertySerializer
 from rest_framework.response import Response
 #-->
-
 
 def landing(request):
     return render(request, 'pages/landing.html')
@@ -43,11 +43,13 @@ def logout_user(request):
     logout(request)
     return redirect('landing')
 
+@login_required
 def all_routes(request):
   routes = Route.objects.all()
   props = Property.objects.all()
   return render(request, 'pages/view_routes.html', {'routes': routes, 'props': props})
 
+@login_required
 def search_routes(request):
     if request.method == 'GET':
         return render(request, 'pages/search_routes.html') 
@@ -62,6 +64,7 @@ def search_routes(request):
         # print(day_route)
     return render(request, 'pages/search_routes.html', {'day_route': day_route, 'props': props})
 
+@login_required
 def add_driver_post(request):
     authors = Driver.objects.all()
     context = {'authors': authors} 
@@ -75,6 +78,7 @@ def add_driver_post(request):
         Article.objects.create(author = author, title = title, text = text, pub_date = pub_date)
         return redirect('view_all_posts')
 
+@login_required
 def view_all_posts(request):
   articles = Article.objects.all()
   comments = PostComment.objects.all()
@@ -82,6 +86,7 @@ def view_all_posts(request):
 #   print(comments)
   return render(request, 'pages/view_posts.html', context)
 
+@login_required
 def post_details(request, id):
     authors = Driver.objects.all()
     article = Article.objects.get(id = id)
@@ -96,10 +101,12 @@ def post_details(request, id):
         PostComment.objects.create(author = author, post_connected = post_connected, content = content, date_posted = date_posted)
         return redirect('view_all_posts')
 
+@login_required
 def all_props(request):
   props = Property.objects.all()
   return render(request, 'pages/view_props.html', {'props': props})
 
+@login_required
 def prop_details(request, id):
     prop = Property.objects.get(id = id)
     latX= prop.latitude
@@ -129,6 +136,43 @@ def property_detail(request, pk, format=None):
         serializer = PropertySerializer(property)
         return Response(serializer.data)
 
+@login_required
 def contacts(request):
   staff = Driver.objects.all()
   return render(request, 'pages/contacts.html', {'staff': staff})
+
+@login_required
+def index_inventory(request):
+    print('START')
+    keg_totals = {}
+    keg_data = Kegs.objects.all()
+    print('DATA ',keg_data)
+    
+    counter = 0
+    # print((keg_data[counter1].quantity))
+    for keg in keg_data:
+        print('FOR ', counter, ' ', keg_data[counter].beer)
+        counter2 = counter + 1
+        print('WHILE ', counter2)
+        while counter2 <= (len(keg_data)) -1:
+            if (keg_data[counter].beer) == (keg_data[counter2].beer):
+                (keg_data[counter2].quantity) = (keg_data[counter2].quantity) + (keg_data[counter].quantity)   
+                counter2 += 1
+                print('MATCH')
+            else:
+                keg_totals[keg.beer] = keg.quantity
+            
+            counter2 += 1
+            
+        counter += 1
+    print('DICT ', keg_totals)
+    # beer_list = list(keg_totals.keys())
+    # quantity_list = list(keg_totals.values())
+    # print(beer_list)
+    # print(quantity_list)
+    
+
+    context = {
+        'keg_totals' : keg_totals,
+    }
+    return render(request, 'pages/index_inventory.html', context)

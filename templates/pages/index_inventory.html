@@ -1,0 +1,93 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container p-3">
+    <h3 class="mt-2"> Welcome to McMenamins Keg Inventory</h3>
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-md-6">
+                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+                    <canvas id="myChart1" width="400" height="400"></canvas>
+                    <script>
+                        const ctx1 = document.getElementById('myChart1').getContext('2d');
+                        const myChart1 = new Chart(ctx1, {
+                            type: 'pie',
+                            data: {
+                                labels: [{% for key, value in keg_totals.items %} '{{ key }}',{% endfor %}],
+                                datasets: [{
+                                    label: 'Kegs',
+                                    data: [{% for key, value in keg_totals.items %} '{{ value }}',{% endfor %}],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.75)',
+                                        'rgba(54, 162, 235, 0.75)',
+                                        'rgba(255, 206, 86, 0.75)',
+                                        'rgba(75, 192, 192, 0.75)',
+                                        'rgba(153, 102, 255, 0.75)',
+                                        'rgba(255, 159, 64, 0.75)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <script>
+                        const ctx = document.getElementById('myChart').getContext('2d');
+                        const myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for key, value in keg_totals.items %} '{{ key }}',{% endfor %}],
+                                datasets: [{
+                                    label: 'Beer Kegs',
+                                    data: [{% for key, value in keg_totals.items %} '{{ value }}',{% endfor %}],
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.75)',
+                                        'rgba(54, 162, 235, 0.75)',
+                                        'rgba(255, 206, 86, 0.75)',
+                                        'rgba(75, 192, 192, 0.75)',
+                                        'rgba(153, 102, 255, 0.75)',
+                                        'rgba(255, 159, 64, 0.75)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
