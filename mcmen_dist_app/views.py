@@ -11,7 +11,8 @@ from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Route
 from mcmen_dist_app.models import Article, PostComment
 from mcmen_dist_app.models import Images
-from mcmen_inventory_app.models import Kegs
+from mcmen_inventory_app.models import Brewer
+
 from decouple import config
 
 #--> Rest
@@ -90,9 +91,10 @@ def view_all_posts(request):
 def post_details(request, id):
     authors = Driver.objects.all()
     article = Article.objects.get(id = id)
-    comments = PostComment.objects.filter(post_connected=article.id) 
+    comments = PostComment.objects.filter(post_connected=article.id)
+    context = { "authors": authors, "article": article, "comments": comments }
     if request.method == 'GET':
-        return render(request, 'pages/post_details.html', {"authors": authors, "article": article, "comments": comments})
+        return render(request, 'pages/post_details.html', context)
     elif request.method == 'POST':
         content = request.POST['content']
         date_posted = request.POST['date_posted']
@@ -138,41 +140,7 @@ def property_detail(request, pk, format=None):
 
 @login_required
 def contacts(request):
-  staff = Driver.objects.all()
-  return render(request, 'pages/contacts.html', {'staff': staff})
-
-@login_required
-def index_inventory(request):
-    print('START')
-    keg_totals = {}
-    keg_data = Kegs.objects.all()
-    print('DATA ',keg_data)
-    
-    counter = 0
-    # print((keg_data[counter1].quantity))
-    for keg in keg_data:
-        print('FOR ', counter, ' ', keg_data[counter].beer)
-        counter2 = counter + 1
-        print('WHILE ', counter2)
-        while counter2 <= (len(keg_data)) -1:
-            if (keg_data[counter].beer) == (keg_data[counter2].beer):
-                (keg_data[counter2].quantity) = (keg_data[counter2].quantity) + (keg_data[counter].quantity)   
-                counter2 += 1
-                print('MATCH')
-            else:
-                keg_totals[keg.beer] = keg.quantity
-            
-            counter2 += 1
-            
-        counter += 1
-    print('DICT ', keg_totals)
-    # beer_list = list(keg_totals.keys())
-    # quantity_list = list(keg_totals.values())
-    # print(beer_list)
-    # print(quantity_list)
-    
-
-    context = {
-        'keg_totals' : keg_totals,
-    }
-    return render(request, 'pages/index_inventory.html', context)
+  drive_staff = Driver.objects.all()
+  brew_staff = Brewer.objects.all()
+  context = {'drive_staff': drive_staff, 'brew_staff' :brew_staff}
+  return render(request, 'pages/contacts.html', context)

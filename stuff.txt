@@ -1,0 +1,74 @@
+class Order(models.Model):
+    beer = models.ForeignKey(Kegs, on_delete=models.PROTECT)
+    quantity = models.PositiveBigIntegerField()
+    property = models.ForeignKey(Property, on_delete=models.PROTECT)
+    brewery = models.ForeignKey(
+        Brewery, related_name='brewery', on_delete=models.PROTECT)
+    manager = models.CharField(max_length=30)
+    order_date = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.beer} -{self.quantity} -{self.brewery}'
+    
+    class Meta:
+        ordering = ('order_date',)
+
+def brewery_details(request, id):
+    current_user = request.user
+    print(current_user.first_name)
+    brewery = Brewery.objects.get(id = id)
+    print('BREWERY ', brewery)
+    property = Property.objects.all() 
+    keg_data = Kegs.objects.filter(brewery = id)
+    orders = Order.objects.filter(brewery_connected = brewery.id)
+    # print('ORDERS ', orders)
+    context = {'keg_data': keg_data, 'property' : property, 'orders' : orders}
+    if request.method == 'GET':
+        return render(request, 'inventory/brewery_details.html', context)
+    elif request.method == 'POST':
+        beer = request.POST['beer']
+        quantity = request.POST['quantity']
+        order_date = request.POST['order_date']
+        manager = (current_user.first_name + ' ' + current_user.last_name)
+        brewery_connected = brewery
+        Order.objects.create(beer = beer, quantity = quantity, manager = manager, 
+        order_date = order_date, brewery_connected = brewery_connected)
+        print('END FUNCTION')
+    return redirect('details')
+
+<form action="{% url 'details' brewery.id %}" method="POST">
+            {% csrf_token %}
+            <h3>Place an Order</h3>
+            <div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                    <select name="beer" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        {% for keg in keg_data %}
+                        <option value="{{keg.beer}}">{{keg.beer}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Quantity</span>
+                    <input name="quantity" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
+                    <select name="property" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        {% for prop in property %}
+                        <option value="{{prop.name}}">{{prop.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Order Date</span>
+                    <input type="date" name="order_date" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <button type="submit" class="btn btn-outline-success">Submit</button>
+            </div>
+        </form>

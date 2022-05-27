@@ -1,0 +1,145 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container">
+    <h3 class="mt-2">{{ brew_prop.name }} Brewery</h3>
+    <div class="container">
+        Brewers
+        {% for brewer in brew_prop.brewers.all %}
+        • {{brewer}}
+        {% endfor %}
+        <div class="row my-4">
+            <div class="col-md-6">
+                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+                    <canvas id="myChart1" width="400" height="400"></canvas>
+                    <script>
+                        const ctx1 = document.getElementById('myChart1').getContext('2d');
+                        const myChart1 = new Chart(ctx1, {
+                            type: 'pie',
+                            data: {
+                                labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Kegs',
+                            data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+
+                            backgroundColor: [
+                                'rgba(200, 0, 10, 0.75)',
+                                'rgba(120, 80, 200, 0.75)',
+                                'rgba(50, 80, 200, 0.75)',
+                                'rgba(80, 200, 200, 0.75)',
+                                'rgba(50, 100, 10, 0.75)',
+                                'rgba(250, 200, 60, 0.75)',
+                                'rgba(250, 80, 10, 0.75)',
+                                'rgba(100, 30, 0, 0.75)'
+                            ],
+                                borderColor: [
+                                    'rgba(200, 0, 10, 1)',
+                                    'rgba(120, 80, 200, 1)',
+                                    'rgba(50, 80, 200, 1)',
+                                    'rgba(80, 200, 200, 1)',
+                                    'rgba(50, 100, 10, 1)',
+                                    'rgba(250, 200, 60, 1)',
+                                    'rgba(250, 80, 10, 1)',
+                                    'rgba(100, 30, 0, 1)'
+                                ],
+                                    borderWidth: 1
+                                }]
+                            },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <script>
+                        const ctx = document.getElementById('myChart').getContext('2d');
+                        const myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Beer Kegs',
+                            data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(200, 0, 10, 0.75)',
+                                'rgba(120, 80, 200, 0.75)',
+                                'rgba(50, 80, 200, 0.75)',
+                                'rgba(80, 200, 200, 0.75)',
+                                'rgba(50, 100, 10, 0.75)',
+                                'rgba(250, 200, 60, 0.75)',
+                                'rgba(250, 80, 10, 0.75)',
+                                'rgba(100, 30, 0, 0.75)'
+                            ],
+                                borderColor: [
+                                    'rgba(200, 0, 10, 1)',
+                                    'rgba(120, 80, 200, 1)',
+                                    'rgba(50, 80, 200, 1)',
+                                    'rgba(80, 200, 200, 1)',
+                                    'rgba(50, 100, 10, 1)',
+                                    'rgba(250, 200, 60, 1)',
+                                    'rgba(250, 80, 10, 1)',
+                                    'rgba(100, 30, 0, 1)'
+                                ],
+                                    borderWidth: 1
+                                }]
+                            },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-sm p-3">
+        <form action="{% url 'details' brew_prop.id %}" method="POST">
+            {% csrf_token %}
+            <h3>Place an Order</h3>
+            <div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                    <select name="beer" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        {% for keg in keg_data %}
+                        <option value="{{keg.id}}">{{keg.beer}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Quantity</span>
+                    <input name="quantity" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
+                    <select name="property" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        {% for prop in property %}
+                        <option value="{{prop.id}}">{{prop.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Order Date</span>
+                    <input type="date" name="order_date" class="form-control bg-secondary text-white bg-opacity-25"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <button type="submit" class="btn btn-outline-success">Submit</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

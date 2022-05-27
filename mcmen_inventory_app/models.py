@@ -1,4 +1,4 @@
-from tabnanny import verbose
+from unittest.mock import DEFAULT
 from django.db import models
 from mcmen_dist_app.models import Property
 
@@ -12,7 +12,7 @@ class Brewer(models.Model):
         return self.nick_name
     
     class Meta:
-        ordering = ('last_name',)
+        ordering = ('nick_name',)
 
 class Brewery(models.Model):
     name = models.CharField(max_length=30)
@@ -31,10 +31,26 @@ class Kegs(models.Model):
     brew_date = models.DateField()
     category = models.CharField(max_length=20)
     brewery = models.ManyToManyField(Brewery)
-    quantity = models.PositiveBigIntegerField(null=True)
+    quantity = models.PositiveBigIntegerField()
 
     def __str__(self):
         return f'{self.beer} -{self.quantity}'
     class Meta:
         ordering = ('beer',)
         verbose_name_plural= 'Kegs'
+
+class Order(models.Model):
+    beer = models.ForeignKey(Kegs, on_delete=models.PROTECT)
+    quantity = models.PositiveBigIntegerField()
+    property = models.ForeignKey(Property, on_delete=models.PROTECT)
+    brewery = models.ForeignKey(
+        Brewery, related_name='brewery', on_delete=models.PROTECT)
+    manager = models.CharField(max_length=30)
+    order_date = models.DateField()
+    status = models.CharField(max_length=10, default= 'Pending')
+
+    def __str__(self):
+        return f'•{self.beer} •{self.quantity} •{self.quantity}'
+    
+    class Meta:
+        ordering = ('order_date',)
