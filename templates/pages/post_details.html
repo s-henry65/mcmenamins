@@ -16,7 +16,7 @@
       {{ comment.content }}<br />
     </div>
       {% endfor %}
-      <a href="javascript:history.back()" class="mb-4 btn btn-outline-success">Go Back</a>
+      <a href="javascript:history.back()" class="mb-4 btn btn-outline-success">Return to Posts</a>
     <form action="{% url 'details' article.id %}" method="POST">
       {% csrf_token %}
       <h3>Post a Comment</h3>

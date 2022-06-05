@@ -1,0 +1,72 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-4">
+            <form action="{% url 'add' brewery.id %}" method="POST">
+                {% csrf_token %}
+                <h3 class="mb-3">Add Kegs</h3>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                    <input type="text" name="beer" required
+                        class="form-control bg-secondary text-white bg-opacity-50 border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Brew Date</span>
+                    <input type="date" name="brew_date" required
+                        class="form-control bg-secondary text-white bg-opacity-50 border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+                    <input type="text" name="category" required
+                        class="form-control bg-secondary text-white bg-opacity-50 border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Quantity</span>
+                    <input name="quantity" required
+                        class="form-control bg-secondary text-white bg-opacity-50 border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+                <a href="{% url 'details' brewery.id %}" class="mb-4 btn btn-outline-success">{{brewery}} Home</a>
+            </form>
+
+
+        </div>
+        <div class="col-md-8">
+            <h3 class="mb-3">{{brewery}} Inventory </h3>
+            <div class="table-responsive form-control rounded bg-secondary text-white bg-opacity-50 p-3 border border-secondary">
+                <table class="table text-white">
+                    <thead>
+                        <tr>
+                            <th scope="col">Beer/size</th>
+                            <th scope="col">Brew Date</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Qty.</th>
+                            <th scope="col">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for kegs in keg_data %}
+                        <tr>
+                            <td> {{ kegs.beer }} </td>
+                            <td> {{ kegs.brew_date }} </td>
+                            <td> {{ kegs.category }} </td>
+                            <td>{{ kegs.quantity }} </td>
+                            <td> {{ kegs.updated }} </td>
+                            <td> <a href="{% url 'keg_update' kegs.id brewery.pk %}" method="POST"
+                                    class="btn btn-sm btn-warning">Update</a></td>
+                            <td><a href="{% url 'remove' kegs.id brewery.pk %}" method="POST"
+                                    class="btn btn-sm btn-danger">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% endblock %}

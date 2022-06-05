@@ -1,6 +1,14 @@
 {% extends 'base_inventory.html' %} {% block content %}
 <div class="container">
-    <h3 class="mt-2">{{ brew_prop.name }} Brewery</h3>
+    <div class="row">
+        <div class="col-auto me-auto mt-2">
+            <h3>{{ brew_prop.name }} Brewery</h3>
+        </div>
+        <div class="col-auto mt-2">
+            <a href="{% url 'add' brew_prop.id %}" class="btn btn btn-outline-success">Add/Update Inventory</a>
+        </div>
+
+    </div>
     <div class="container">
         Brewers
         {% for brewer in brew_prop.brewers.all %}
@@ -101,45 +109,85 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="container-sm p-3">
-        <form action="{% url 'details' brew_prop.id %}" method="POST">
-            {% csrf_token %}
-            <h3>Place an Order</h3>
-            <div>
-                <div class="input-group mb-4">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
-                    <select name="beer" class="form-control bg-secondary text-white bg-opacity-25"
-                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                        {% for keg in keg_data %}
-                        <option value="{{keg.id}}">{{keg.beer}}</option>
-                        {% endfor %}
-                    </select>
+        <div class="row my-4">
+            <div class="col-md-12 mb-3">
+                <h3>Orders</h3>
+                <div
+                    class="table-responsive form-control rounded bg-secondary text-white bg-opacity-50 p-3 mb-2 border border-secondary">
+                    <table class="table text-white">
+                        <thead>
+                            <tr>
+                                <th scope="col">Beer/size</th>
+                                <th scope="col">Qty.</th>
+                                <th scope="col">Property</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Manager</th>
+                                <th scope="col">Updated</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders reversed %}
+                            <tr>
+                                <td> {{ order.beer }} </td>
+                                <td> {{ order.quantity }} </td>
+                                <td> {{ order.property }} </td>
+                                <td>{{ order.order_date }} </td>
+                                <td> {{ order.manager}} </td>
+                                <td> {{ order.updated}} </td>
+                                <td> {{order.status }} </td>
+                                <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
+                                        class="btn btn-sm btn-warning">Update</a></td>
+                                <td><a href="{% url 'cancel' order.id brew_prop.id %}" method="POST"
+                                        class="btn btn-sm btn-danger">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="input-group mb-4">
-                    <span class="input-group-text">Quantity</span>
-                    <input name="quantity" class="form-control bg-secondary text-white bg-opacity-25"
-                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-                </div>
-                <div class="input-group mb-4">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
-                    <select name="property" class="form-control bg-secondary text-white bg-opacity-25"
-                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                        {% for prop in property %}
-                        <option value="{{prop.id}}">{{prop.name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="input-group mb-4">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Order Date</span>
-                    <input type="date" name="order_date" class="form-control bg-secondary text-white bg-opacity-25"
-                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-                </div>
-                <button type="submit" class="btn btn-outline-success">Submit</button>
             </div>
-        </form>
-        
+            <div class="col-md-4">
+                <form action="{% url 'details' brew_prop.id %}" method="POST">
+                    {% csrf_token %}
+                    <h3>Place an Order</h3>
+                    <div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
+                            <select name="property"
+                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                {% for prop in property %}
+                                <option value="{{prop.id}}">{{prop.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                            <select name="beer"
+                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                {% for keg in keg_data %}
+                                <option value="{{keg.id}}">{{keg.beer}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text">Quantity</span>
+                            <input name="quantity" required
+                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Order Date</span>
+                            <input type="date" name="order_date" required
+                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                        </div>
+                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
-{% endblock %}
+<div>
+    {% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container">
+    <h3 class="mb-4 mt-2">Update Inventory</h3>
+    <div class="col-md-4">
+        <form action="{% url 'keg_update' keg.id pk%}" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                <input type="text" name="beer"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.beer}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+                <input type="text" name="category"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.category}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text">Quantity</span>
+                <input name="quantity"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.quantity}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Updated</span>
+                <input type="date" name="updated" required
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.brew_date}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+            <a href="{% url 'add' pk %}" class="mb-4 btn btn-outline-success">Back to Inventory</a>
+        </form>
+    </div>
+<div>
+{% endblock %}

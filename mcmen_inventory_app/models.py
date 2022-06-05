@@ -29,12 +29,13 @@ class Brewery(models.Model):
 class Kegs(models.Model):
     beer = models.CharField(max_length=30)
     brew_date = models.DateField()
+    updated = models.DateField(null=True)
     category = models.CharField(max_length=20)
     brewery = models.ManyToManyField(Brewery)
     quantity = models.PositiveBigIntegerField()
 
     def __str__(self):
-        return f'{self.beer} -{self.quantity}'
+        return self.beer
     class Meta:
         ordering = ('beer',)
         verbose_name_plural= 'Kegs'
@@ -47,6 +48,7 @@ class Order(models.Model):
         Brewery, related_name='brewery', on_delete=models.PROTECT)
     manager = models.CharField(max_length=30)
     order_date = models.DateField()
+    updated = models.DateField(null=True)
     status = models.CharField(max_length=10, default= 'Pending')
 
     def __str__(self):

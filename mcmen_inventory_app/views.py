@@ -15,8 +15,8 @@ def index_inventory(request):
     # print('START')
     keg_totals = {}
     keg_data = Kegs.objects.all()
-    # print('DATA ',keg_data)
-    
+    # print(keg_data)
+    # print(keg_data.count())
     counter = 0
     for keg in keg_data:
         # print('FOR ', counter, ' ', keg_data[counter].beer)
@@ -45,11 +45,16 @@ def all_breweries(request):
 
 @login_required
 def brewery_details(request, id):
+    orders = Order.objects.filter(brewery = id)
     current_user = request.user
     brew_prop = Brewery.objects.get(id = id)
     property = Property.objects.all()
     keg_data = Kegs.objects.filter(brewery = id)
-    context = {'keg_data': keg_data, 'property' : property, 'brew_prop' : brew_prop}
+    context = {
+        'keg_data': keg_data, 'property' : property, 'brew_prop' : brew_prop,
+        'orders' : orders
+        }
+    # Placing an order
     if request.method == 'GET':
         return render(request, 'inventory/brewery_details.html', context)
     elif request.method == 'POST':
@@ -61,14 +66,83 @@ def brewery_details(request, id):
         manager = (current_user.first_name + ' ' + current_user.last_name)
         Order.objects.create(beer = beer, quantity = quantity, property = property,
         brewery = brewery, manager = manager, order_date = order_date,)
-    return redirect('breweries')
+    return render(request, 'inventory/brewery_details.html', context)
 
 @login_required
 def brewer_contacts(request):
-    current_user = request.user
-    print(current_user.first_name)
-    
     drive_staff = Driver.objects.all()
     brew_staff = Brewer.objects.all()
     context = {'drive_staff': drive_staff, 'brew_staff' : brew_staff}
     return render(request, 'inventory/brewer_contacts.html', context)
+
+@login_required
+def add_update_kegs(request, id):
+    brewery = Brewery.objects.get(id = id)
+    keg_data = Kegs.objects.filter(brewery = id)
+    context = {'brewery' : brewery, 'keg_data' : keg_data}
+    # print('BREWERY 1 :', brewery.id)
+    # print('DATA 1 :', keg_data)
+    if request.method == 'GET':
+        return render(request, 'inventory/add_update_kegs.html', context)
+    # Adding a new keg of beer
+    elif request.method == 'POST':
+        beer = request.POST['beer']
+        brew_date = request.POST['brew_date']
+        category = request.POST['category']
+        quantity = request.POST['quantity']
+        kegs = Kegs.objects.create(beer = beer, brew_date = brew_date, 
+        category = category, quantity = quantity)
+        kegs.brewery.add(brewery)
+        return render(request, 'inventory/add_update_kegs.html', context)
+
+@login_required
+def update_kegs(request, id, pk):
+    keg = Kegs.objects.get(id = id)
+    context = {'keg' : keg, 'pk' : pk}
+    if request.method == 'GET':
+        return render(request, 'inventory/update_inventory.html', context)
+    elif request.method == 'POST':
+        keg.beer = request.POST['beer']
+        keg.updated = request.POST['updated']
+        keg.category = request.POST['category']
+        keg.quantity = request.POST['quantity']
+        keg.save()
+        return redirect('add', pk)
+
+@login_required
+def update_orders(request, id, pk):
+    keg_data = Kegs.objects.filter(brewery = pk)
+    order = Order.objects.get(id = id)
+    property = Property.objects.all()
+    keg = Kegs.objects.get(id = order.beer.id)
+    context = {'order' : order, 'pk' : pk, 'property' : property, 'keg_data' : keg_data}
+    print('BEER :', order.beer, order.beer.id)
+    print('QUANT :', order.quantity)
+    print(keg_data)
+    print(id, pk)
+    print(keg.quantity)
+    if request.method == 'GET':
+        return render(request, 'inventory/update_orders.html', context)
+    elif request.method == 'POST':
+        order.updated = request.POST['updated']
+        order.quantity = request.POST['quantity']
+        order.status = request.POST['status']
+        order.save()
+        if order.status == 'Approved':
+            keg.quantity -= int(order.quantity)
+            keg.save()
+        return redirect('details', pk)
+
+@login_required
+def delete_keg(request, id, pk):
+    keg = Kegs.objects.get(id = id)
+    # keg_data = Kegs.objects.filter(brewery = id)
+    keg.delete()
+    return redirect('add', pk)
+
+@login_required
+def delete_order(request, id, pk):
+    order = Order.objects.get(id = id)
+    # order_data = Order.objects.filter(order = id)
+    order.delete()
+    return redirect('details', pk)

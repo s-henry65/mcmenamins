@@ -72,3 +72,56 @@ def brewery_details(request, id):
                 <button type="submit" class="btn btn-outline-success">Submit</button>
             </div>
         </form>
+
+<div class="input-group mb-4">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                        <select name="status"
+                            class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+
+
+
+<h3 class="mb-4 mt-2">Update Inventory</h3>
+    
+        <form action="{% url 'keg_update' brewery.id %}" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                <select name="beer" class="form-control bg-secondary text-white bg-opacity-25"
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                  {%for keg in keg_data%}
+                  <option value="{{keg.beer}}">{{keg.beer}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Updated</span>
+                <input type="date" name="brew_date"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.brew_date}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+                <input type="text" name="category"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.category}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text">Quantity</span>
+                <input name="quantity"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.quantity}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            
+            <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+            <a href="javascript:history.back()" class="btn btn-outline-success">Back</a>
+        </form>

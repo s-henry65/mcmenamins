@@ -1,0 +1,49 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container">
+    <h3 class="my-3">Update Order</h3>
+    <div class="col-md-4">
+        <form action="{% url 'order_update' order.id pk%}" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
+                <input type="text" value="{{order.property.name}}" name="property"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.category}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                <input type="text" value="{{order.beer}}" name="beer"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.beer}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text">Quantity *</span>
+                <input name="quantity" value="{{order.quantity}}"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.quantity}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text">Status *</span>
+                <select name="status" required
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Updated *</span>
+                <input type="date" name="updated" required
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.brew_date}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+            <a href="javascript:history.back()" class="btn btn-outline-success">Back to Orders</a>
+        </form>
+    </div>
+    <div>
+        {% endblock %}
