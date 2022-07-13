@@ -15,5 +15,7 @@ urlpatterns = [
     path('api/property/<int:pk>', views.property_detail),
     path('search_routes/', views.search_routes, name = 'search_routes'),
     path('contacts/', views.contacts, name = 'contacts'),
-    # path('inventory/', views.index_inventory, name = 'inventory')
+    path('calendar/', views.calendar, name = 'calendar'),
+    path('router/', views.router, name = 'router'),
+    path('place_order/', views.place_order, name = 'place_order'),
 ]

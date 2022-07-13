@@ -29,13 +29,17 @@ def landing(request):
 def index(request):
     return render(request, 'pages/index.html')
 
+@login_required
+def router(request):
+    return render(request, 'pages/router.html')
+
 def login_user(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return redirect('index')
+        return redirect('router')
     else:
         messages.warning(request, 'User Name or Password is incorrect')
         return render(request, 'pages/landing.html')
@@ -67,16 +71,15 @@ def search_routes(request):
 
 @login_required
 def add_driver_post(request):
-    authors = Driver.objects.all()
-    context = {'authors': authors} 
+    current_user = request.user
     if request.method == 'GET':
-        return render(request, 'pages/add_driver_post.html', context)
+        return render(request, 'pages/add_driver_post.html')
     elif request.method == 'POST':
         title = request.POST['title']
         text = request.POST['text']
-        pub_date = request.POST['pub_date']
-        author = Driver.objects.get(id=request.POST['author'])
-        Article.objects.create(author = author, title = title, text = text, pub_date = pub_date)
+        # pub_date = request.POST['pub_date']
+        author = (current_user.first_name + ' ' + current_user.last_name)
+        Article.objects.create(author = author, title = title, text = text)
         return redirect('view_all_posts')
 
 @login_required
@@ -89,18 +92,17 @@ def view_all_posts(request):
 
 @login_required
 def post_details(request, id):
-    authors = Driver.objects.all()
     article = Article.objects.get(id = id)
     comments = PostComment.objects.filter(post_connected=article.id)
-    context = { "authors": authors, "article": article, "comments": comments }
+    context = { "article": article, "comments": comments }
+    current_user = request.user
     if request.method == 'GET':
         return render(request, 'pages/post_details.html', context)
     elif request.method == 'POST':
         content = request.POST['content']
-        date_posted = request.POST['date_posted']
-        author = Driver.objects.get(id=request.POST['author'])  
+        author = (current_user.first_name + ' ' + current_user.last_name)
         post_connected = article
-        PostComment.objects.create(author = author, post_connected = post_connected, content = content, date_posted = date_posted)
+        PostComment.objects.create(author = author, post_connected = post_connected, content = content)
         return redirect('view_all_posts')
 
 @login_required
@@ -144,3 +146,11 @@ def contacts(request):
   brew_staff = Brewer.objects.all()
   context = {'drive_staff': drive_staff, 'brew_staff' :brew_staff}
   return render(request, 'pages/contacts.html', context)
+
+@login_required
+def calendar(request):
+  return render(request, 'pages/calendar.html')
+
+@login_required
+def place_order(request):
+  return render(request, 'pages/place_order.html')

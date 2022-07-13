@@ -14,6 +14,15 @@
         {% for brewer in brew_prop.brewers.all %}
         • {{brewer}}
         {% endfor %}
+        <div class="input-group mb-4">
+            <span class="input-group-text" id="inputGroup-sizing-default">Inventory View</span>
+            <select name="day" class="form-control bg-secondary text-white bg-opacity-25"
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
+                <option >Select</option>
+                <option value="Graph">Graph</option>
+                <option value="List">List</option>
+            </select>
+        </div>
         <div class="row my-4">
             <div class="col-md-6">
                 <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
@@ -146,47 +155,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-4">
-                <form action="{% url 'details' brew_prop.id %}" method="POST">
-                    {% csrf_token %}
-                    <h3>Place an Order</h3>
-                    <div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
-                            <select name="property"
-                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
-                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                {% for prop in property %}
-                                <option value="{{prop.id}}">{{prop.name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
-                            <select name="beer"
-                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
-                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                {% for keg in keg_data %}
-                                <option value="{{keg.id}}">{{keg.beer}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text">Quantity</span>
-                            <input name="quantity" required
-                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
-                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Order Date</span>
-                            <input type="date" name="order_date" required
-                                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
-                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-                        </div>
-                        <button type="submit" class="btn btn-outline-success">Submit</button>
-                    </div>
-                </form>
-            </div>
+            
         </div>
     </div>
 <div>

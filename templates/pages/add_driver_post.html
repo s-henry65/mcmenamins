@@ -15,19 +15,6 @@
         <textarea class="form-control bg-secondary text-white bg-opacity-25" rows="5" name="text"
           aria-label="With textarea"></textarea>
       </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text" id="inputGroup-sizing-default">Pub. Date</span>
-        <input type="date" name="pub_date" class="form-control bg-secondary text-white bg-opacity-25"
-          aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-      </div>
-
-      <div class="input-group mb-4">
-        <span class="input-group-text" id="inputGroup-sizing-default">Author</span>
-        <select name="author" class="form-control bg-secondary text-white bg-opacity-25"
-          aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-          {%for author in authors%}
-          <option value="{{author.id}}">{{author}}</option>
-          {% endfor %}
         </select>
       </div>
       <button type="submit" class="btn btn-outline-success">Submit</button>

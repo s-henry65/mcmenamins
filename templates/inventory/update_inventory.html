@@ -25,13 +25,7 @@
                     value="{{keg.quantity}}" aria-label="Sizing example input"
                     aria-describedby="inputGroup-sizing-default" />
             </div>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="inputGroup-sizing-default">Updated</span>
-                <input type="date" name="updated" required
-                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
-                    value="{{keg.brew_date}}" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default" />
-            </div>
+           
             <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
             <a href="{% url 'add' pk %}" class="mb-4 btn btn-outline-success">Back to Inventory</a>
         </form>

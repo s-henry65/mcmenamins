@@ -125,3 +125,28 @@ def brewery_details(request, id):
             <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
             <a href="javascript:history.back()" class="btn btn-outline-success">Back</a>
         </form>
+
+Total keg count code:
+
+class Keg:
+
+    def __init__(self, beer, quantity):
+        self.beer = beer
+        self.quantity = quantity
+
+
+kegs = [
+    Keg("Ale", 10),
+    Keg("Lager", 25),
+    Keg("Ale", 2),
+    Keg("Stout", 4),
+    Keg("Lager", 10)
+]
+
+from itertools import groupby
+from operator import attrgetter
+
+key = attrgetter("beer")
+
+keg_totals = { beer: sum(keg.quantity for keg in group) for beer, group in groupby(sorted(kegs, key=key), key=key)}
+print(keg_totals)

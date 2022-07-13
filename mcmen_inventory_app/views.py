@@ -9,12 +9,14 @@ from mcmen_inventory_app.models import Brewer, Brewery
 from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Property
 from mcmen_inventory_app.models import Order
+from mcmen_inventory_app.models import PropOrder
 
 @login_required
 def index_inventory(request):
     # print('START')
     keg_totals = {}
     keg_data = Kegs.objects.all()
+    order_data = PropOrder.objects.all()
     # print(keg_data)
     # print(keg_data.count())
     counter = 0
@@ -34,7 +36,7 @@ def index_inventory(request):
     # print('DICT ', keg_totals)
 
     context = {
-        'keg_totals' : keg_totals,
+        'keg_totals' : keg_totals, 'order_data' : order_data,
     }
     return render(request, 'inventory/index_inventory.html', context)
 
@@ -61,11 +63,10 @@ def brewery_details(request, id):
         beer = Kegs.objects.get(id=request.POST['beer'])
         quantity = request.POST['quantity']
         property = Property.objects.get(id=request.POST['property']) 
-        order_date = request.POST['order_date']
         brewery = brew_prop
         manager = (current_user.first_name + ' ' + current_user.last_name)
         Order.objects.create(beer = beer, quantity = quantity, property = property,
-        brewery = brewery, manager = manager, order_date = order_date,)
+        brewery = brewery, manager = manager)
     return render(request, 'inventory/brewery_details.html', context)
 
 @login_required
@@ -103,7 +104,6 @@ def update_kegs(request, id, pk):
         return render(request, 'inventory/update_inventory.html', context)
     elif request.method == 'POST':
         keg.beer = request.POST['beer']
-        keg.updated = request.POST['updated']
         keg.category = request.POST['category']
         keg.quantity = request.POST['quantity']
         keg.save()
@@ -116,22 +116,21 @@ def update_orders(request, id, pk):
     property = Property.objects.all()
     keg = Kegs.objects.get(id = order.beer.id)
     context = {'order' : order, 'pk' : pk, 'property' : property, 'keg_data' : keg_data}
-    print('BEER :', order.beer, order.beer.id)
-    print('QUANT :', order.quantity)
-    print(keg_data)
-    print(id, pk)
-    print(keg.quantity)
+    # print('BEER :', order.beer, order.beer.id)
+    # print('QUANT :', order.quantity)
+    # print(keg_data)
+    # print(id, pk)
+    # print(keg.quantity)
     if request.method == 'GET':
         return render(request, 'inventory/update_orders.html', context)
     elif request.method == 'POST':
-        order.updated = request.POST['updated']
         order.quantity = request.POST['quantity']
         order.status = request.POST['status']
         order.save()
         if order.status == 'Approved':
             keg.quantity -= int(order.quantity)
             keg.save()
-        return redirect('details', pk)
+        return redirect('brew_details', pk)
 
 @login_required
 def delete_keg(request, id, pk):
@@ -145,4 +144,4 @@ def delete_order(request, id, pk):
     order = Order.objects.get(id = id)
     # order_data = Order.objects.filter(order = id)
     order.delete()
-    return redirect('details', pk)
+    return redirect('brew_details', pk)

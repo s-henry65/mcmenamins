@@ -22,7 +22,7 @@
             {% if user.is_authenticated %}
             <form action="{% url 'logout_user' %}" method="POST">
                 {% csrf_token %}
-                <a href='/index/' class="btn btn-outline-info">Home Page</a><br><br>
+                <a href='/router/' class="btn btn-outline-info">Home Page</a><br><br>
 
                 <button type="submit" class="btn btn-outline-success">Logout</button>
             </form>

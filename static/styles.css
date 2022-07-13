@@ -2,12 +2,21 @@ h3 {
     color:antiquewhite;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
+.router {
+    font-size: 16pt;
+    color:antiquewhite;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+}
 .bold {
     font-weight: bold;
 }
 body {
     background-image: url("/uploaded_files/images/bg_organic_small.jpg");
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 .alert {
     color:crimson;

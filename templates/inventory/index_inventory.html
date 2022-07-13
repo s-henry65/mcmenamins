@@ -1,6 +1,6 @@
 {% extends 'base_inventory.html' %} {% block content %}
 <div class="container">
-    <h3 class="mt-2"> Welcome to McMenamins Beer Keg Inventory</h3>
+    <h3 class="mt-2"> Welcome to Beer Keg Inventory</h3>
     <div class="container">
         Total Brewery Inventory
         <div class="row my-4">
@@ -13,39 +13,39 @@
                             type: 'pie',
                             data: {
                                 labels: [{% for key, value in keg_totals.items %} '{{ key }}',{% endfor %}],
-                                datasets: [{
-                                    label: 'Kegs',
-                                    data: [{% for key, value in keg_totals.items %} '{{ value }}',{% endfor %}],
-                                    backgroundColor: [
-                                        'rgba(200, 0, 10, 0.75)',                           
-                                        'rgba(120, 80, 200, 0.75)',
-                                        'rgba(50, 80, 200, 0.75)',
-                                        'rgba(80, 200, 200, 0.75)',                               
-                                        'rgba(50, 100, 10, 0.75)',
-                                        'rgba(250, 200, 60, 0.75)',
-                                        'rgba(250, 80, 10, 0.75)',
-                                        'rgba(100, 30, 0, 0.75)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(200, 0, 10, 1)',                           
-                                        'rgba(120, 80, 200, 1)',
-                                        'rgba(50, 80, 200, 1)',
-                                        'rgba(80, 200, 200, 1)',                               
-                                        'rgba(50, 100, 10, 1)',
-                                        'rgba(250, 200, 60, 1)',
-                                        'rgba(250, 80, 10, 1)',
-                                        'rgba(100, 30, 0, 1)'
-                                    ],
+                        datasets: [{
+                            label: 'Kegs',
+                            data: [{% for key, value in keg_totals.items %} '{{ value }}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(200, 0, 10, 0.75)',
+                                'rgba(120, 80, 200, 0.75)',
+                                'rgba(50, 80, 200, 0.75)',
+                                'rgba(80, 200, 200, 0.75)',
+                                'rgba(50, 100, 10, 0.75)',
+                                'rgba(250, 200, 60, 0.75)',
+                                'rgba(250, 80, 10, 0.75)',
+                                'rgba(100, 30, 0, 0.75)'
+                            ],
+                                borderColor: [
+                                    'rgba(200, 0, 10, 1)',
+                                    'rgba(120, 80, 200, 1)',
+                                    'rgba(50, 80, 200, 1)',
+                                    'rgba(80, 200, 200, 1)',
+                                    'rgba(50, 100, 10, 1)',
+                                    'rgba(250, 200, 60, 1)',
+                                    'rgba(250, 80, 10, 1)',
+                                    'rgba(100, 30, 0, 1)'
+                                ],
                                     borderWidth: 1
                                 }]
                             },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
                                 }
                             }
+                        }
                         });
                     </script>
                 </div>
@@ -59,44 +59,92 @@
                             type: 'bar',
                             data: {
                                 labels: [{% for key, value in keg_totals.items %} '{{ key }}',{% endfor %}],
-                                datasets: [{
-                                    label: 'Beer Kegs',
-                                    data: [{% for key, value in keg_totals.items %} '{{ value }}',{% endfor %}],
-                                    backgroundColor: [
-                                        'rgba(200, 0, 10, 0.75)',                           
-                                        'rgba(120, 80, 200, 0.75)',
-                                        'rgba(50, 80, 200, 0.75)',
-                                        'rgba(80, 200, 200, 0.75)',                               
-                                        'rgba(50, 100, 10, 0.75)',
-                                        'rgba(250, 200, 60, 0.75)',
-                                        'rgba(250, 80, 10, 0.75)',
-                                        'rgba(100, 30, 0, 0.75)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(200, 0, 10, 1)',                           
-                                        'rgba(120, 80, 200, 1)',
-                                        'rgba(50, 80, 200, 1)',
-                                        'rgba(80, 200, 200, 1)',                               
-                                        'rgba(50, 100, 10, 1)',
-                                        'rgba(250, 200, 60, 1)',
-                                        'rgba(250, 80, 10, 1)',
-                                        'rgba(100, 30, 0, 1)'
-                                    ],
+                        datasets: [{
+                            label: 'Beer Kegs',
+                            data: [{% for key, value in keg_totals.items %} '{{ value }}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(200, 0, 10, 0.75)',
+                                'rgba(120, 80, 200, 0.75)',
+                                'rgba(50, 80, 200, 0.75)',
+                                'rgba(80, 200, 200, 0.75)',
+                                'rgba(50, 100, 10, 0.75)',
+                                'rgba(250, 200, 60, 0.75)',
+                                'rgba(250, 80, 10, 0.75)',
+                                'rgba(100, 30, 0, 0.75)'
+                            ],
+                                borderColor: [
+                                    'rgba(200, 0, 10, 1)',
+                                    'rgba(120, 80, 200, 1)',
+                                    'rgba(50, 80, 200, 1)',
+                                    'rgba(80, 200, 200, 1)',
+                                    'rgba(50, 100, 10, 1)',
+                                    'rgba(250, 200, 60, 1)',
+                                    'rgba(250, 80, 10, 1)',
+                                    'rgba(100, 30, 0, 1)'
+                                ],
                                     borderWidth: 1
                                 }]
                             },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
                                 }
                             }
+                        }
                         });
                     </script>
                 </div>
             </div>
         </div>
+        <div class="row my-4">
+            <div class="col-md-12">
+                <h3>Orders</h3>
+                {% for order in order_data reversed %}
+                <div class="col-md-12 table-responsive form-control rounded bg-secondary text-white bg-opacity-50 p-3 mb-2
+                border border-secondary mb-4">
+                    <table class="table text-white">
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Property</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Manager</th>
+                                <th scope="col">Upadated</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ order.property.name }} </td>
+                                <td>{{ order.order_date }} </td>
+                                <td>{{ order.manager}} </td>
+                                <td>{{ order.updated}} </td>
+                                <td>{{order.status }} </td>
+                                <td>{{order.kegs.manager }} </td>
+                            </tr>
+                            <thead>
+                                <tr class="bg-info bg-opacity-50">
+                                    <th scope="col">Beer</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Brewery</th>
+                                    <th scope="col">Upadated</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            {% for keg in order.kegs.all %}
+                            <tr>
+                                <td>{{ keg.beer }} </td>
+                                <td>{{ keg.quantity }} </td>
+                                <td>{{ keg.brewery }} </td>
+                                <td>{{ keg.updated }} </td>
+                                <td>{{ keg.status }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}

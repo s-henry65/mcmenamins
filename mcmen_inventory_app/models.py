@@ -29,7 +29,7 @@ class Brewery(models.Model):
 class Kegs(models.Model):
     beer = models.CharField(max_length=30)
     brew_date = models.DateField()
-    updated = models.DateField(null=True)
+    updated = models.DateField(auto_now=True)
     category = models.CharField(max_length=20)
     brewery = models.ManyToManyField(Brewery)
     quantity = models.PositiveBigIntegerField()
@@ -47,12 +47,28 @@ class Order(models.Model):
     brewery = models.ForeignKey(
         Brewery, related_name='brewery', on_delete=models.PROTECT)
     manager = models.CharField(max_length=30)
-    order_date = models.DateField()
-    updated = models.DateField(null=True)
+    order_date = models.DateField(auto_now=True)
+    updated = models.DateField(auto_now=True)
     status = models.CharField(max_length=10, default= 'Pending')
 
     def __str__(self):
-        return f'•{self.beer} •{self.quantity} •{self.quantity}'
+        return f'{self.property} •{self.brewery} •{self.order_date} •{self.beer} •{self.quantity}'
+    
+    class Meta:
+        ordering = ('order_date',)
+
+class PropOrder(models.Model):
+    kegs = models.ManyToManyField(Order)
+    property = models.ForeignKey(Property, on_delete=models.PROTECT)
+    brewery = models.ForeignKey(
+        Brewery, on_delete=models.PROTECT)
+    manager = models.CharField(max_length=30)
+    order_date = models.DateField()
+    updated = models.DateField(null=True)
+    status = models.CharField(max_length=10, default= 'Open')
+
+    def __str__(self):
+        return f'{self.property} •{self.order_date}'
     
     class Meta:
         ordering = ('order_date',)
