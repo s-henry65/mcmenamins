@@ -1,11 +1,6 @@
-
-from turtle import title
 from django.shortcuts import render, redirect
 import requests
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib import messages
 from mcmen_dist_app.models import PostComment, Property
 from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Route
@@ -22,42 +17,20 @@ from .serializers import PropertySerializer
 from rest_framework.response import Response
 #-->
 
-def landing(request):
-    return render(request, 'pages/landing.html')
-
 @login_required
 def index(request):
-    return render(request, 'pages/index.html')
-
-@login_required
-def router(request):
-    return render(request, 'pages/router.html')
-
-def login_user(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        return redirect('router')
-    else:
-        messages.warning(request, 'User Name or Password is incorrect')
-        return render(request, 'pages/landing.html')
-
-def logout_user(request):
-    logout(request)
-    return redirect('landing')
+    return render(request, 'distribution/index.html')
 
 @login_required
 def all_routes(request):
   routes = Route.objects.all()
   props = Property.objects.all()
-  return render(request, 'pages/view_routes.html', {'routes': routes, 'props': props})
+  return render(request, 'distribution/view_routes.html', {'routes': routes, 'props': props})
 
 @login_required
 def search_routes(request):
     if request.method == 'GET':
-        return render(request, 'pages/search_routes.html') 
+        return render(request, 'distribution/search_routes.html') 
     elif request.method == 'POST':
         props = Property.objects.all()
         routes = Route.objects.all()
@@ -67,13 +40,13 @@ def search_routes(request):
         # print(route_truck, route_day)
         day_route = Route.objects.filter(truck_num=route_truck, day=route_day)
         # print(day_route)
-    return render(request, 'pages/search_routes.html', {'day_route': day_route, 'props': props})
+    return render(request, 'distribution/search_routes.html', {'day_route': day_route, 'props': props})
 
 @login_required
 def add_driver_post(request):
     current_user = request.user
     if request.method == 'GET':
-        return render(request, 'pages/add_driver_post.html')
+        return render(request, 'distribution/add_driver_post.html')
     elif request.method == 'POST':
         title = request.POST['title']
         text = request.POST['text']
@@ -84,11 +57,11 @@ def add_driver_post(request):
 
 @login_required
 def view_all_posts(request):
-  articles = Article.objects.all()
-  comments = PostComment.objects.all()
-  context = {'articles': articles, 'comments': comments}
+    articles = Article.objects.all()
+    comments = PostComment.objects.all()
+    context = {'articles': articles, 'comments': comments}
 #   print(comments)
-  return render(request, 'pages/view_posts.html', context)
+    return render(request, 'distribution/view_posts.html', context)
 
 @login_required
 def post_details(request, id):
@@ -97,7 +70,7 @@ def post_details(request, id):
     context = { "article": article, "comments": comments }
     current_user = request.user
     if request.method == 'GET':
-        return render(request, 'pages/post_details.html', context)
+        return render(request, 'distribution/post_details.html', context)
     elif request.method == 'POST':
         content = request.POST['content']
         author = (current_user.first_name + ' ' + current_user.last_name)
@@ -108,7 +81,7 @@ def post_details(request, id):
 @login_required
 def all_props(request):
   props = Property.objects.all()
-  return render(request, 'pages/view_props.html', {'props': props})
+  return render(request, 'distribution/view_props.html', {'props': props})
 
 @login_required
 def prop_details(request, id):
@@ -124,7 +97,7 @@ def prop_details(request, id):
     main= weather_data['main']
     weather= weather_data['weather'][0]
     context= {'prop': prop, 'main': main, 'weather': weather, 'note_list': note_list}
-    return render(request, 'pages/prop_details.html', context)
+    return render(request, 'distribution/prop_details.html', context)
 
 @api_view(['GET'])
 def property_detail(request, pk, format=None):
@@ -145,12 +118,16 @@ def contacts(request):
   drive_staff = Driver.objects.all()
   brew_staff = Brewer.objects.all()
   context = {'drive_staff': drive_staff, 'brew_staff' :brew_staff}
-  return render(request, 'pages/contacts.html', context)
+  return render(request, 'distribution/contacts.html', context)
 
 @login_required
 def calendar(request):
-  return render(request, 'pages/calendar.html')
+  return render(request, 'distribution/calendar.html')
 
 @login_required
 def place_order(request):
-  return render(request, 'pages/place_order.html')
+  return render(request, 'distribution/place_order.html')
+  
+@login_required
+def dist_admin(request):
+  return render(request, 'distribution/dist_admin.html')

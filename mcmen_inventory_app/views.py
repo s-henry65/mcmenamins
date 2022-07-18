@@ -3,7 +3,6 @@ from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from mcmen_inventory_app.models import Kegs
 from mcmen_inventory_app.models import Brewer, Brewery
 from mcmen_dist_app.models import Driver

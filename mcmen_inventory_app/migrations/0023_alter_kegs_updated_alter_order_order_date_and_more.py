@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='kegs',
             name='updated',
-            field=models.DateField(auto_now=True, default=0.000741839762611276),
+            field=models.DateField(auto_now=True, default='2000-01-01'),
             preserve_default=False,
         ),
         migrations.AlterField(
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='updated',
-            field=models.DateField(auto_now=True, default=0.000741839762611276),
+            field=models.DateField(auto_now=True, default='2000-01-01'),
             preserve_default=False,
         ),
     ]
