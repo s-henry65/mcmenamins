@@ -6,7 +6,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from mcmen_user_app.models import UserProfile
 from mcmen_dist_app.models import Property
-from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from mcmen_dist_app.models import User
+from .forms import CreateUserForm
+from mcmen_order_app.models import Order
+from mcmen_order_app.models import OrderItem
 
 def landing(request):
     return render(request, 'distribution/landing.html')
@@ -43,9 +47,10 @@ def logout_user(request):
 def create_user_profile(request):
     props = Property.objects.all()
     current_user = request.user
-    # id = current_user.id
-    # print(id, current_user)
-    context = { 'props' : props
+    id = current_user.id
+    user_info = User.objects.get(id=id)
+    print(id, user_info.first_name)
+    context = { 'props' : props, 'user_info' : user_info
     }
     if request.method == 'GET':
         return render(request, 'user/user_profile.html', context)
@@ -82,3 +87,52 @@ def update_profile(request):
         user_data.home_base = Property.objects.get(id=request.POST['home_base'])
         user_data.save()
         return redirect('router')
+
+@login_required
+def create_user(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.warning(request, 'New user successfully added!')
+            return redirect(create_user) 
+        else:
+            return render(request, "user/create_user.html", {'form': form}) 
+    else:
+        form = CreateUserForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'user/create_user.html', context)
+
+@login_required
+def view_users(request):
+  staff= User.objects.order_by('username')
+  context = {
+        'staff': staff,
+    }
+  return render(request, 'user/view_all_users.html', context)
+
+@login_required
+def delete_user(request, id):
+    user = User.objects.get(id = id)
+    # order_data = Order.objects.filter(order = id)
+    user.delete()
+    return redirect('view_users')
+
+
+@login_required
+def contacts(request):
+  drive_staff = UserProfile.objects.filter(job_title = 'Driver')
+  brew_staff = UserProfile.objects.filter(job_title = 'Brewer')
+  pub_manager = UserProfile.objects.filter(job_title = 'Manager, Pub')
+  admin_staff = UserProfile.objects.filter(job_title = 'Administration')
+  brew_manager = UserProfile.objects.filter(job_title = 'Manager, Brewery')
+  dist_manager = UserProfile.objects.filter(job_title = 'Manager, Distribution')
+  
+  context = {
+        'drive_staff': drive_staff, 'brew_staff' : brew_staff, 'pub_manger' : pub_manager,
+        'pub_manager' : pub_manager, 'admin_staff' : admin_staff, 'brew_manager' : brew_manager,
+        'dist_manager' : dist_manager
+        }
+  return render(request, 'user/contacts.html', context)

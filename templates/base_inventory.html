@@ -28,10 +28,18 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/inventory/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/breweries/">Breweries</a>
-                </li>
-                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Breweries
+                    </a>    
+                    <ul class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                        {% for brewery in breweries %}
+                        <li><a class="dropdown-item bg-secondary text-white" href="{% url 'brew_details' brewery.id %}">{{brewery.name}}</a>
+                        </li> 
+                        {% endfor %} 
+                    </ul>                 
+                </li> 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,7 +52,7 @@
                     </ul>
                 </li>          
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/brewer_contacts/">Contacts</a>
+                    <a class="nav-link" aria-current="page" href="/contacts/">Contacts</a>
                 </li>
             </ul>
             <form class="d-flex" action="{% url 'logout_user' %}" method="POST">

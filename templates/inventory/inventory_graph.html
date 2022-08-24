@@ -1,0 +1,95 @@
+<div class="row my-4">
+    <div class="col-md-6">
+        <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+            <canvas id="myChart1" width="400" height="400"></canvas>
+            <script>
+                const ctx1 = document.getElementById('myChart1').getContext('2d');
+                const myChart1 = new Chart(ctx1, {
+                    type: 'pie',
+                    data: {
+                        labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                datasets: [{
+                    label: 'Kegs',
+                    data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+
+                    backgroundColor: [
+                        'rgba(200, 0, 10, 0.75)',
+                        'rgba(120, 80, 200, 0.75)',
+                        'rgba(50, 80, 200, 0.75)',
+                        'rgba(80, 200, 200, 0.75)',
+                        'rgba(50, 100, 10, 0.75)',
+                        'rgba(250, 200, 60, 0.75)',
+                        'rgba(250, 80, 10, 0.75)',
+                        'rgba(100, 30, 0, 0.75)'
+                    ],
+                        borderColor: [
+                            'rgba(200, 0, 10, 1)',
+                            'rgba(120, 80, 200, 1)',
+                            'rgba(50, 80, 200, 1)',
+                            'rgba(80, 200, 200, 1)',
+                            'rgba(50, 100, 10, 1)',
+                            'rgba(250, 200, 60, 1)',
+                            'rgba(250, 80, 10, 1)',
+                            'rgba(100, 30, 0, 1)'
+                        ],
+                            borderWidth: 1
+                        }]
+                    },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+                });
+            </script>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
+            <canvas id="myChart" width="400" height="400"></canvas>
+            <script>
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                datasets: [{
+                    label: 'Beer Kegs',
+                    data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+                    backgroundColor: [
+                        'rgba(200, 0, 10, 0.75)',
+                        'rgba(120, 80, 200, 0.75)',
+                        'rgba(50, 80, 200, 0.75)',
+                        'rgba(80, 200, 200, 0.75)',
+                        'rgba(50, 100, 10, 0.75)',
+                        'rgba(250, 200, 60, 0.75)',
+                        'rgba(250, 80, 10, 0.75)',
+                        'rgba(100, 30, 0, 0.75)'
+                    ],
+                        borderColor: [
+                            'rgba(200, 0, 10, 1)',
+                            'rgba(120, 80, 200, 1)',
+                            'rgba(50, 80, 200, 1)',
+                            'rgba(80, 200, 200, 1)',
+                            'rgba(50, 100, 10, 1)',
+                            'rgba(250, 200, 60, 1)',
+                            'rgba(250, 80, 10, 1)',
+                            'rgba(100, 30, 0, 1)'
+                        ],
+                            borderWidth: 1
+                        }]
+                    },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+                });
+            </script>
+        </div>
+    </div>
+</div>

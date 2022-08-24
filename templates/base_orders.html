@@ -23,33 +23,49 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/place_order/">Home</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'order' user.id %}">Home</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Place Order
+                    </a>    
+                    <ul class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                        {% for brewery in breweries %}
+                        <li><a class="dropdown-item bg-secondary text-white" href="{% url 'place_order' brewery.id %}">{{brewery.name}}</a>
+                        </li> 
+                        {% endfor %} 
+                    </ul>                 
+                </li>    
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/breweries/">Breweries</a>
-                </li>
-                       
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/brewer_contacts/">Contacts</a>
+                    <a class="nav-link" aria-current="page" href="/contacts/">Contacts</a>
                 </li>
             </ul>
             <form class="d-flex" action="{% url 'logout_user' %}" method="POST">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-success">Logout</button>
             </form>
+            <div class="form-inline ms-3 my-2">  
+                <a href="{% url 'view_cart' user.id %}">
+                    <img class="img_fluid" id="cart-icon" src="/uploaded_files/images/cart.png">
+                </a>
+                
+            </div>
         </div>
     </nav>
 
     <div class="container"></div>
+
+    {% block content %} {% endblock %}
+
     {%if messages%}
     {%for message in messages%}
-    <div class=alert {{message.tags}}>
+    <div class="alert text-center" {{message.tags}}>
         {{message}}
     </div>
     {%endfor%}
     {%endif%}
-
-    {% block content %} {% endblock %}
+    
     <footer class="mt-auto">
         <div class="container mb-4">
             <div class="row row-cols-auto justify-content-center">

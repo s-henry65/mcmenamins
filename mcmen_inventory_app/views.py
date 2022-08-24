@@ -1,21 +1,19 @@
-
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from mcmen_inventory_app.models import Kegs
-from mcmen_inventory_app.models import Brewer, Brewery
-from mcmen_dist_app.models import Driver
+from mcmen_inventory_app.models import Brewery
 from mcmen_dist_app.models import Property
-from mcmen_inventory_app.models import Order
-from mcmen_inventory_app.models import PropOrder
+from mcmen_order_app.models import OrderItem
+
 
 @login_required
 def index_inventory(request):
+    breweries = Brewery.objects.all()
     # print('START')
     keg_totals = {}
     keg_data = Kegs.objects.all()
-    order_data = PropOrder.objects.all()
+    # order_data = PropOrder.objects.all()
     # print(keg_data)
     # print(keg_data.count())
     counter = 0
@@ -35,7 +33,7 @@ def index_inventory(request):
     # print('DICT ', keg_totals)
 
     context = {
-        'keg_totals' : keg_totals, 'order_data' : order_data,
+        'keg_totals' : keg_totals, 'breweries' : breweries,
     }
     return render(request, 'inventory/index_inventory.html', context)
 
@@ -46,42 +44,26 @@ def all_breweries(request):
 
 @login_required
 def brewery_details(request, id):
-    orders = Order.objects.filter(brewery = id)
-    current_user = request.user
+    breweries = Brewery.objects.all()
+    orders = OrderItem.objects.filter(brewery = id)
     brew_prop = Brewery.objects.get(id = id)
     property = Property.objects.all()
     keg_data = Kegs.objects.filter(brewery = id)
     context = {
         'keg_data': keg_data, 'property' : property, 'brew_prop' : brew_prop,
-        'orders' : orders
+        'orders' : orders, 'breweries' : breweries,
         }
-    # Placing an order
-    if request.method == 'GET':
-        return render(request, 'inventory/brewery_details.html', context)
-    elif request.method == 'POST':
-        beer = Kegs.objects.get(id=request.POST['beer'])
-        quantity = request.POST['quantity']
-        property = Property.objects.get(id=request.POST['property']) 
-        brewery = brew_prop
-        manager = (current_user.first_name + ' ' + current_user.last_name)
-        Order.objects.create(beer = beer, quantity = quantity, property = property,
-        brewery = brewery, manager = manager)
     return render(request, 'inventory/brewery_details.html', context)
 
 @login_required
-def brewer_contacts(request):
-    drive_staff = Driver.objects.all()
-    brew_staff = Brewer.objects.all()
-    context = {'drive_staff': drive_staff, 'brew_staff' : brew_staff}
-    return render(request, 'inventory/brewer_contacts.html', context)
-
-@login_required
 def add_update_kegs(request, id):
+    breweries = Brewery.objects.all()
     brewery = Brewery.objects.get(id = id)
+    keg = Kegs.objects.get(id = id)
     keg_data = Kegs.objects.filter(brewery = id)
-    context = {'brewery' : brewery, 'keg_data' : keg_data}
-    # print('BREWERY 1 :', brewery.id)
-    # print('DATA 1 :', keg_data)
+    context = {'brewery' : brewery, 'keg_data' : keg_data, 'keg': keg,
+            'breweries' : breweries,
+    }
     if request.method == 'GET':
         return render(request, 'inventory/add_update_kegs.html', context)
     # Adding a new keg of beer
@@ -92,13 +74,16 @@ def add_update_kegs(request, id):
         quantity = request.POST['quantity']
         kegs = Kegs.objects.create(beer = beer, brew_date = brew_date, 
         category = category, quantity = quantity)
+        print('LOOK', kegs, brewery)
         kegs.brewery.add(brewery)
         return render(request, 'inventory/add_update_kegs.html', context)
 
 @login_required
 def update_kegs(request, id, pk):
+    breweries = Brewery.objects.all()
     keg = Kegs.objects.get(id = id)
-    context = {'keg' : keg, 'pk' : pk}
+    context = {'keg' : keg, 'pk' : pk, 'breweries' : breweries,
+    }
     if request.method == 'GET':
         return render(request, 'inventory/update_inventory.html', context)
     elif request.method == 'POST':
@@ -111,15 +96,11 @@ def update_kegs(request, id, pk):
 @login_required
 def update_orders(request, id, pk):
     keg_data = Kegs.objects.filter(brewery = pk)
-    order = Order.objects.get(id = id)
+    order = OrderItem.objects.get(id = id)
     property = Property.objects.all()
     keg = Kegs.objects.get(id = order.beer.id)
     context = {'order' : order, 'pk' : pk, 'property' : property, 'keg_data' : keg_data}
-    # print('BEER :', order.beer, order.beer.id)
-    # print('QUANT :', order.quantity)
-    # print(keg_data)
-    # print(id, pk)
-    # print(keg.quantity)
+
     if request.method == 'GET':
         return render(request, 'inventory/update_orders.html', context)
     elif request.method == 'POST':
@@ -140,7 +121,16 @@ def delete_keg(request, id, pk):
 
 @login_required
 def delete_order(request, id, pk):
-    order = Order.objects.get(id = id)
+    order = OrderItem.objects.get(id = id)
     # order_data = Order.objects.filter(order = id)
     order.delete()
     return redirect('brew_details', pk)
+
+@login_required
+def inventory_view(request, id):
+    brewery = Brewery.objects.get(id = id)
+    # print(brewery.id)
+    brewery.inv_view = request.POST['inv_view']
+    # print('HERE ',brewery.inv_view)
+    brewery.save()
+    return redirect('brew_details', id)

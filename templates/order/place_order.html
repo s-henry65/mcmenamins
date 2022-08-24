@@ -1,0 +1,61 @@
+{% extends 'base_orders.html' %} {% block content %}
+<div class="container p-3">
+    <h3 class="mt-2 text-center"> Place Order from {{ brew_prop.name }} Brewery</h3>
+    <div class="row my-4">
+        <div class="col-md-4 mt-3">
+            <form action="{% url 'place_order' brew_prop.id %}" method="POST">
+                {% csrf_token %}
+                <div>
+                    <div class="input-group mb-4">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                        <select name="beer"
+                            class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            {% for keg in keg_data %}
+                            <option value="{{keg.id}}">{{keg.beer}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">Quantity</span>
+                        <input name="quantity"
+                            class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                    </div>     
+                            
+                    <button type="submit" id="liveAlertBtn" class="btn btn-outline-success">Submit</button>
+                
+                </div>
+            </form>
+        </div>
+   
+        <div class="col-md-8">
+            <div class=" mt-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+                <table class="table text-white">
+                    <thead>
+                        <tr>
+                            <th scope="col">Beer/size</th>
+                            <th scope="col">Brew Date</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Qty.</th>
+                            <th scope="col">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for kegs in keg_data %}
+                        <tr>
+                            <td> {{ kegs.beer }} </td>
+                            <td> {{ kegs.brew_date }} </td>
+                            <td> {{ kegs.category }} </td>
+                            <td>{{ kegs.quantity }} </td>
+                            <td> {{ kegs.updated }} </td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>   
+</div>
+{% endblock %}

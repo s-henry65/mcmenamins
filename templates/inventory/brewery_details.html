@@ -14,115 +14,30 @@
         {% for brewer in brew_prop.brewers.all %}
         • {{brewer}}
         {% endfor %}
-        <div class="input-group mb-4">
-            <span class="input-group-text" id="inputGroup-sizing-default">Inventory View</span>
-            <select name="day" class="form-control bg-secondary text-white bg-opacity-25"
-                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
-                <option >Select</option>
-                <option value="Graph">Graph</option>
-                <option value="List">List</option>
-            </select>
-        </div>
-        <div class="row my-4">
-            <div class="col-md-6">
-                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
-                    <canvas id="myChart1" width="400" height="400"></canvas>
-                    <script>
-                        const ctx1 = document.getElementById('myChart1').getContext('2d');
-                        const myChart1 = new Chart(ctx1, {
-                            type: 'pie',
-                            data: {
-                                labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
-                        datasets: [{
-                            label: 'Kegs',
-                            data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+        {% if brew_prop.inv_view == 'Graphic' %}
+        {% include 'inventory/inventory_graph.html' %}
+        {% else %}
+        {% include 'inventory/brewery_inventory.html' %}
+        {% endif %}
+        <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
+            {% csrf_token %}
+            <div class="input-group my-4">
 
-                            backgroundColor: [
-                                'rgba(200, 0, 10, 0.75)',
-                                'rgba(120, 80, 200, 0.75)',
-                                'rgba(50, 80, 200, 0.75)',
-                                'rgba(80, 200, 200, 0.75)',
-                                'rgba(50, 100, 10, 0.75)',
-                                'rgba(250, 200, 60, 0.75)',
-                                'rgba(250, 80, 10, 0.75)',
-                                'rgba(100, 30, 0, 0.75)'
-                            ],
-                                borderColor: [
-                                    'rgba(200, 0, 10, 1)',
-                                    'rgba(120, 80, 200, 1)',
-                                    'rgba(50, 80, 200, 1)',
-                                    'rgba(80, 200, 200, 1)',
-                                    'rgba(50, 100, 10, 1)',
-                                    'rgba(250, 200, 60, 1)',
-                                    'rgba(250, 80, 10, 1)',
-                                    'rgba(100, 30, 0, 1)'
-                                ],
-                                    borderWidth: 1
-                                }]
-                            },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                        });
-                    </script>
-                </div>
+                <span class="input-group-text" id="inputGroup-sizing-default">Inventory View</span>
+                <select name="inv_view" class="form-control bg-black bg-opacity-50 text-white"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <option value="{{brew_prop.in_view}}">{{brew_prop.inv_view}} (current)</option>
+                    <option value="Graphic">Graphic</option>
+                    <option value="List">List</option>
+                </select>
+                <button type="submit" class="btn btn-outline-success ms-2">Submit</button>
             </div>
-            <div class="col-md-6">
-                <div class="rounded bg-white text-white bg-opacity-75 border border-secondary">
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                    <script>
-                        const ctx = document.getElementById('myChart').getContext('2d');
-                        const myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
-                        datasets: [{
-                            label: 'Beer Kegs',
-                            data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
-                            backgroundColor: [
-                                'rgba(200, 0, 10, 0.75)',
-                                'rgba(120, 80, 200, 0.75)',
-                                'rgba(50, 80, 200, 0.75)',
-                                'rgba(80, 200, 200, 0.75)',
-                                'rgba(50, 100, 10, 0.75)',
-                                'rgba(250, 200, 60, 0.75)',
-                                'rgba(250, 80, 10, 0.75)',
-                                'rgba(100, 30, 0, 0.75)'
-                            ],
-                                borderColor: [
-                                    'rgba(200, 0, 10, 1)',
-                                    'rgba(120, 80, 200, 1)',
-                                    'rgba(50, 80, 200, 1)',
-                                    'rgba(80, 200, 200, 1)',
-                                    'rgba(50, 100, 10, 1)',
-                                    'rgba(250, 200, 60, 1)',
-                                    'rgba(250, 80, 10, 1)',
-                                    'rgba(100, 30, 0, 1)'
-                                ],
-                                    borderWidth: 1
-                                }]
-                            },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
+        </form>
         <div class="row my-4">
             <div class="col-md-12 mb-3">
                 <h3>Orders</h3>
                 <div
-                    class="table-responsive form-control rounded bg-secondary text-white bg-opacity-50 p-3 mb-2 border border-secondary">
+                    class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2 border border-secondary">
                     <table class="table text-white">
                         <thead>
                             <tr>
@@ -144,7 +59,7 @@
                                 <td>{{ order.order_date }} </td>
                                 <td> {{ order.manager}} </td>
                                 <td> {{ order.updated}} </td>
-                                <td> {{order.status }} </td>
+                                <td> {{ order.status }} </td>
                                 <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
                                         class="btn btn-sm btn-warning">Update</a></td>
                                 <td><a href="{% url 'cancel' order.id brew_prop.id %}" method="POST"
@@ -155,8 +70,8 @@
                     </table>
                 </div>
             </div>
-            
+
         </div>
     </div>
-<div>
-    {% endblock %}
+    <div>
+        {% endblock %}

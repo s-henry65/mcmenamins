@@ -30,10 +30,12 @@ img {
     max-width: 1000px;
     border-radius: 8px;
 }
-/* nav {
-    width: 100vw !important;
-} */
+
 .navbar {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-size: 12pt;
+}
+
+#cart-icon {
+    max-height: 40px;
 }

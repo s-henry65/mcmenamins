@@ -1,0 +1,56 @@
+{% extends 'base_orders.html' %} {% block content %}
+<div class="container">
+    <div class="row my-2">
+        <div class="col-md-12">
+            <h3 class="mt-2">Cart</h3>
+            <div class="table-responsive form-control rounded bg-black text-white bg-opacity-50 p-3 mb-2
+                        border border-secondary mb-4">
+                {% for order in order %}
+                <table class="table text-white">
+                    <thead>
+                        <tr class="bg-info bg-opacity-50">
+                            <th scope="col">Property</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">Upadated</th>
+                            <th scope="col">Cart Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ order.property.name }} </td>
+                            <td>{{ order.order_date }} </td>
+                            <td>{{ order.manager}} </td>
+                            <td>{{ order.updated}} </td>
+                            <td>{{ order.cart_status }} </td>
+                        </tr>
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Beer</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Brewery</th>
+                                <th scope="col">Upadated</th>
+                                <th scope="col">Order Status</th>
+                            </tr>
+                        </thead>
+                        {% for keg in order.order_items.all %}
+                        <tr>
+                            <td>{{ keg.beer }} </td>
+                            <td>{{ keg.quantity }} </td>
+                            <td>{{ keg.brewery }} </td>
+                            <td>{{ keg.updated }} </td>
+                            <td>{{ keg.status }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+
+            <a href="{% url 'close_cart' order.id %}" class="btn btn-success mb-4">Submit Order</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock%}

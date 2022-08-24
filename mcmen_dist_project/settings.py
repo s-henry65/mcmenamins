@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'mcmen_user_app',
     'mcmen_dist_app',
     'mcmen_inventory_app',
+    'mcmen_order_app',
     'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -136,3 +140,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploaded_files')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'landing'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'

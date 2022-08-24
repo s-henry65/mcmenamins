@@ -11,8 +11,6 @@ urlpatterns = [
     path('prop_details/<int:id>', views.prop_details, name = 'prop_details'),
     path('api/property/<int:pk>', views.property_detail),
     path('search_routes/', views.search_routes, name = 'search_routes'),
-    path('contacts/', views.contacts, name = 'contacts'),
     path('calendar/', views.calendar, name = 'calendar'),
-    path('place_order/', views.place_order, name = 'place_order'),
-    path('dist_admin/', views.dist_admin, name = 'dist_admin'),
+
 ]

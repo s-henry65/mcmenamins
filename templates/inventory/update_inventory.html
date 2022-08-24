@@ -2,7 +2,7 @@
 <div class="container">
     <h3 class="mb-4 mt-2">Update Inventory</h3>
     <div class="col-md-4">
-        <form action="{% url 'keg_update' keg.id pk%}" method="POST">
+        <form action="{% url 'keg_update' keg.id pk %}" method="POST">
             {% csrf_token %}
 
             <div class="input-group mb-4">

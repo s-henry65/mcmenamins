@@ -6,7 +6,9 @@ from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Route
 from mcmen_dist_app.models import Article, PostComment
 from mcmen_dist_app.models import Images
-from mcmen_inventory_app.models import Brewer
+# from mcmen_inventory_app.models import Brewer
+
+from django.contrib import messages
 
 from decouple import config
 
@@ -114,20 +116,6 @@ def property_detail(request, pk, format=None):
         return Response(serializer.data)
 
 @login_required
-def contacts(request):
-  drive_staff = Driver.objects.all()
-  brew_staff = Brewer.objects.all()
-  context = {'drive_staff': drive_staff, 'brew_staff' :brew_staff}
-  return render(request, 'distribution/contacts.html', context)
-
-@login_required
 def calendar(request):
   return render(request, 'distribution/calendar.html')
 
-@login_required
-def place_order(request):
-  return render(request, 'distribution/place_order.html')
-  
-@login_required
-def dist_admin(request):
-  return render(request, 'distribution/dist_admin.html')

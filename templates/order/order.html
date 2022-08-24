@@ -1,0 +1,56 @@
+{% extends 'base_orders.html' %} {% block content %}
+<div class="container p-3">
+    <h3 class="mt-2 text-center"> Pub & Property Orders</h3>
+    <div class="row my-4">
+        <div class="col-md-12">
+            {% for order in orders reversed %}
+            <div class="col-md-12 table-responsive form-control rounded bg-black text-white bg-opacity-50 p-3 mb-2
+            border border-secondary mb-4">
+                <table class="table text-white">
+                    <thead>
+                        <tr class="bg-info bg-opacity-50">
+                            <th scope="col">Property</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">Upadated</th>
+                            <th scope="col">Cart Status</th>
+                            <th scope="col">Order Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ order.property.name }} </td>
+                            <td>{{ order.order_date }} </td>
+                            <td>{{ order.manager}} </td>
+                            <td>{{ order.updated}} </td>
+                            <td>{{ order.cart_status }} </td>
+                            <td>{{ order.status }} </td>
+                        </tr>
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Beer</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Brewery</th>
+                                <th scope="col">Upadated</th>
+                                <th scope="col">Order Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        {% for keg in order.order_items.all %}
+                        <tr>
+                            <td>{{ keg.beer }} </td>
+                            <td>{{ keg.quantity }} </td>
+                            <td>{{ keg.brewery }} </td>
+                            <td>{{ keg.updated }} </td>             
+                            <td>{{ keg.status }} </td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

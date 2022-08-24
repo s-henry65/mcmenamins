@@ -1,0 +1,25 @@
+<div class="col-md-3">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h3 class="mt-2">Edit Cart</h3>
+        <div class="input-group mb-4">
+            <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+            <select name="beer"
+                class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                {% for order in order %}
+                {% for keg in order.order_items.all %}
+                <option value="{{keg.beer}}">{{keg.beer}}</option>
+                {% endfor %}
+            </select>
+            {% endfor %}
+        </div>
+        <div class="input-group mb-4">
+            <span class="input-group-text">Quantity</span>
+            <input name="quantity" required
+                class="form-control bg-secondary text-white bg-opacity-50 border-secondary"
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+        </div>
+        <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+    </form>
+</div>

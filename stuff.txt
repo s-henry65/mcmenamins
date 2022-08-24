@@ -66,3 +66,99 @@ key = attrgetter("beer")
 
 keg_totals = { beer: sum(keg.quantity for keg in group) for beer, group in groupby(sorted(kegs, key=key), key=key)}
 print(keg_totals)
+
+update_inventory
+
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container">
+    <h3 class="mb-4 mt-2">Update Inventory</h3>
+    <div class="col-md-4">
+        <form action="{% url 'keg_update' keg.id pk%}" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
+                <input type="text" name="beer"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.beer}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
+                <input type="text" name="category"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.category}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+            <div class="input-group mb-4">
+                <span class="input-group-text">Quantity</span>
+                <input name="quantity"
+                    class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                    value="{{keg.quantity}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" />
+            </div>
+           
+            <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+            <a href="{% url 'add' pk %}" class="mb-4 btn btn-outline-success">Back to Inventory</a>
+        </form>
+    </div>
+<div>
+{% endblock %}
+
+@login_required
+def delete_order(request, id, pk):
+    order = Order.objects.get(id = id)
+    # order_data = Order.objects.filter(order = id)
+    order.delete()
+    return redirect('brew_details', pk)
+
+path('delete_order/<int:id>/<pk>', views.delete_order, name = 'cancel'),
+
+<div class="row my-4">
+            <div class="col-md-12">
+                <h3>Orders</h3>
+                {% for order in order_data reversed %}
+                <div class="col-md-12 table-responsive form-control rounded bg-secondary text-white bg-opacity-50 p-3 mb-2
+                border border-secondary mb-4">
+                    <table class="table text-white">
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Property</th>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Manager</th>
+                                <th scope="col">Upadated</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ order.property.name }} </td>
+                                <td>{{ order.order_date }} </td>
+                                <td>{{ order.manager}} </td>
+                                <td>{{ order.updated}} </td>
+                                <td>{{order.status }} </td>
+                                <td>{{order.kegs.manager }} </td>
+                            </tr>
+                            <thead>
+                                <tr class="bg-info bg-opacity-50">
+                                    <th scope="col">Beer</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Brewery</th>
+                                    <th scope="col">Upadated</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            {% for keg in order.kegs.all %}
+                            <tr>
+                                <td>{{ keg.beer }} </td>
+                                <td>{{ keg.quantity }} </td>
+                                <td>{{ keg.brewery }} </td>
+                                <td>{{ keg.updated }} </td>
+                                <td>{{ keg.status }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
