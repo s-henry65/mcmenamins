@@ -162,3 +162,154 @@ path('delete_order/<int:id>/<pk>', views.delete_order, name = 'cancel'),
                 {% endfor %}
             </div>
         </div>
+
+@login_required
+def open_cart(request, id):
+    current_user = request.user
+    # print('USER ID', id)
+    breweries = Brewery.objects.all()
+    profile = UserProfile.objects.get(user_name=current_user)
+    today = date.today()
+    prop = profile.home_base
+    order = Order.objects.create(
+    manager=current_user, order_date=today, property=prop, cart_status='Open')
+    context = {'order': order, 'breweries': breweries,
+                   }
+    return render(request, 'order/cart.html', context)
+
+ counter = 0
+    for keg in keg_data:
+        counter2 = counter + 1
+        while counter2 <= (len(keg_data)) -1:
+            if (keg_data[counter].beer) == (keg_data[counter2].beer):
+                (keg_data[counter2].quantity) = (keg_data[counter2].quantity) + (keg_data[counter].quantity)   
+                counter2 += 1
+            else:
+                keg_totals[keg.beer] = keg.quantity     
+            counter2 += 1      
+        counter += 1
+
+{% extends 'base.html' %} {% block content %}
+<a href='/admin_page/'>Admin</a><br>
+<h3>Add Route</h3>
+<p>
+<form action="{%url 'add_route' %}" method="POST">
+    {% csrf_token %}
+
+    Truck Number<br>
+    <select name="truck_num">
+        <option value="Truck 1">Truck 1</option>
+        <option value="Truck 2">Truck 2</option>
+        <option value="Truck 3">Truck 3</option>
+    </select>
+</p>
+<p>
+    Driver Name <br>
+    {% if drivers %}
+    <!-- <select name="properties"> -->
+        {% for driver in drivers %}
+        <option value="{{driver.id}}">{{driver}}</option>
+        <input type="checkbox" id="{{driver.id}}" name="drivers" value="{{driver.id}}">
+        <!-- <label for="{{driver.id}}">{{driver}}</label> -->
+        {% endfor %}    
+    <!-- </select> -->
+</p>
+    {% else %}
+    <a href="{% url 'add_driver'%}">Add a driver first!</a>
+    {% endif %}
+<p>
+    Day<br>
+    <select name="day">
+        <option value="Mon">Monday</option>
+        <option value="Tue">Tuesday</option>
+        <option value="Wed">Wednesday</option>
+        <option value="Thu">Thursday</option>
+        <option value="Fri">Friday</option>
+        <option value="Sat">Saturday</option>
+        <option value="Sun">Sunday</option>
+    </select>
+</p>
+<p>
+Add Route
+
+    Property<br>
+    {% if props %}
+    <!-- <select name="properties"> -->
+        {% for prop in props %}
+        <option value="{{prop.id}}">{{prop}}</option>
+        <input type="checkbox" id="{{prop.id}}" name="properties" value="{{prop.id}}">
+        <!-- <label for="{{prop.id}}">{{prop}}</label> -->
+        {% endfor %}    
+    <!-- </select> -->
+</p>  
+    {% else %}
+    <a href="{% url 'add_property'%}">Add a property first!</a>
+    {% endif %}
+<p>
+    <button type="submit">Submit</button>
+</p>
+</form>
+
+{% endblock %}
+
+Add Property
+
+{% extends 'base.html' %} {% block content %}
+<a href='/admin_page/'>Admin</a><br>
+<h3>Add Property</h3>
+
+<form action="{%url 'add_property' %}" method="POST">
+    {% csrf_token %}
+
+    Code <br>
+    <input type="text" name="code"/><br>
+    Latitude <br>
+    <input type="text" name="latitude"/><br>
+    Longitude <br>
+    <input type="text" name="longitude"/><br>
+    Name <br>
+    <input type="text" name="name"/><br>
+    Phone # <br>
+    <input type="text" name="phone_num"/><br>
+    Address <br>
+    <input type="text" name="address"/><br>
+    City <br>
+    <input type="text" name="city"/><br>
+    State <br>
+    <input type="text" name="state"/><br>
+    Zipcode <br>
+    <input type="text" name="zipcode"/><br>
+    Manager <br>
+    <input type="text" name="manager"/><br>
+    Brewer <br>
+    <input type="text" name="brewer"/><br>
+    Deliveries <br>
+    <input type="text" name="delivery"/><br>
+    Notes <br>
+    <textarea rows="6" name="notes"></textarea><br>
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}
+
+Add Driver
+
+{% extends 'base.html' %} {% block content %}
+<a href='/admin_page/'>Admin</a><br>
+<h3>Add Driver</h3>
+
+<form action="{%url 'add_driver' %}" method="POST">
+    {% csrf_token %}
+
+    First name<br>
+    <input type="text" name="first_name" /><br>
+    Last name<br>
+    <input type="text" name="last_name" /><br>
+    Phone #<br>
+    <input type="text" name="phone_num" /><br>
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+</form>
+
+{% endblock %}

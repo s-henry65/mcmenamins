@@ -31,3 +31,4 @@ let lngX = null;
     script.src = `https://maps.googleapis.com/maps/api/js?key=${data.key}`;
     document.body.append(script);
   }
+

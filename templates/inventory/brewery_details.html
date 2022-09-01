@@ -7,14 +7,13 @@
         <div class="col-auto mt-2">
             <a href="{% url 'add' brew_prop.id %}" class="btn btn btn-outline-success">Add/Update Inventory</a>
         </div>
-
     </div>
     <div class="container">
         Brewers
         {% for brewer in brew_prop.brewers.all %}
-        • {{brewer}}
+        • {{brewer.first_name}} {{brewer.last_name}}
         {% endfor %}
-        {% if brew_prop.inv_view == 'Graphic' %}
+        {% if user_data.view_pref == 'Graph' %}
         {% include 'inventory/inventory_graph.html' %}
         {% else %}
         {% include 'inventory/brewery_inventory.html' %}
@@ -22,15 +21,14 @@
         <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
             {% csrf_token %}
             <div class="input-group my-4">
-
-                <span class="input-group-text" id="inputGroup-sizing-default">Inventory View</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm">Inventory View</span>
                 <select name="inv_view" class="form-control bg-black bg-opacity-50 text-white"
                     aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                    <option value="{{brew_prop.in_view}}">{{brew_prop.inv_view}} (current)</option>
-                    <option value="Graphic">Graphic</option>
-                    <option value="List">List</option>
+                    <option value="{{user_data.view_pref}}">{{user_data.view_pref}} (current)</option>
+                    <option value="Graph">Graph</option>
+                    <option value="Table">Table</option>
                 </select>
-                <button type="submit" class="btn btn-outline-success ms-2">Submit</button>
+                <button type="submit" class="btn btn-sm btn-outline-success ms-2">Submit</button>
             </div>
         </form>
         <div class="row my-4">
@@ -57,7 +55,7 @@
                                 <td> {{ order.quantity }} </td>
                                 <td> {{ order.property }} </td>
                                 <td>{{ order.order_date }} </td>
-                                <td> {{ order.manager}} </td>
+                                <td> {{ order.manager.first_name}}  {{order.manager.last_name}}</td>
                                 <td> {{ order.updated}} </td>
                                 <td> {{ order.status }} </td>
                                 <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
@@ -70,8 +68,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
-    </div>
     <div>
         {% endblock %}

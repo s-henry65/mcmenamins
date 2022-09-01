@@ -1,7 +1,7 @@
 {% extends 'base_inventory.html' %} {% block content %}
 <div class="container">
     <h3 class="my-3">Update Order</h3>
-    <div class="col-md-4">
+    <div class="d-flex my-4 justify-content-left">
         <form action="{% url 'order_update' order.id pk%}" method="POST">
             {% csrf_token %}
             <div class="input-group mb-4">
@@ -37,5 +37,5 @@
             <a href="javascript:history.back()" class="btn btn-outline-success">Back to Orders</a>
         </form>
     </div>
-    <div>
-        {% endblock %}
+</div>
+{% endblock %}

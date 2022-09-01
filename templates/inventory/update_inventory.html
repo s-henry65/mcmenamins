@@ -1,10 +1,9 @@
 {% extends 'base_inventory.html' %} {% block content %}
 <div class="container">
-    <h3 class="mb-4 mt-2">Update Inventory</h3>
-    <div class="col-md-4">
+    <h3 class="my-3"> Update Inventory </h3>
+    <div class="d-flex my-4 justify-content-left">
         <form action="{% url 'keg_update' keg.id pk %}" method="POST">
             {% csrf_token %}
-
             <div class="input-group mb-4">
                 <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
                 <input type="text" name="beer"
@@ -25,10 +24,9 @@
                     value="{{keg.quantity}}" aria-label="Sizing example input"
                     aria-describedby="inputGroup-sizing-default" />
             </div>
-           
             <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
             <a href="{% url 'add' pk %}" class="mb-4 btn btn-outline-success">Back to Inventory</a>
         </form>
     </div>
-<div>
+</div>
 {% endblock %}

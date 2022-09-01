@@ -1,10 +1,12 @@
 {% extends 'base_orders.html' %} {% block content %}
 <div class="container p-3">
-    <h3 class="mt-2 text-center"> Pub & Property Orders</h3>
-    <div class="row my-4">
+    <h3 class="my-2 text-center">Welcome Pub & Property Managers</h3> 
+   
+    <div class="row">
+        <div class="router my-3">{{prop}} Orders</div>
         <div class="col-md-12">
             {% for order in orders reversed %}
-            <div class="col-md-12 table-responsive form-control rounded bg-black text-white bg-opacity-50 p-3 mb-2
+            <div class="col-md-12 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2
             border border-secondary mb-4">
                 <table class="table text-white">
                     <thead>
@@ -12,7 +14,7 @@
                             <th scope="col">Property</th>
                             <th scope="col">Order Date</th>
                             <th scope="col">Manager</th>
-                            <th scope="col">Upadated</th>
+                            <th scope="col">Keg Total</th>
                             <th scope="col">Cart Status</th>
                             <th scope="col">Order Status</th>
                         </tr>
@@ -21,19 +23,19 @@
                         <tr>
                             <td>{{ order.property.name }} </td>
                             <td>{{ order.order_date }} </td>
-                            <td>{{ order.manager}} </td>
-                            <td>{{ order.updated}} </td>
+                            <td>{{ order.manager.first_name }} {{order.manager.last_name}} </td>
+                            <td>{{ order.keg_count}} </td>
                             <td>{{ order.cart_status }} </td>
-                            <td>{{ order.status }} </td>
+                            <td>{{ order.status }} </td>                          
                         </tr>
                         <thead>
                             <tr class="bg-success bg-opacity-50">
                                 <th scope="col">Beer</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Brewery</th>
-                                <th scope="col">Upadated</th>
-                                <th scope="col">Order Status</th>
+                                <th scope="col">Updated</th>
                                 <th scope="col"></th>
+                                <th scope="col">Order Status</th>
                             </tr>
                         </thead>
                         {% for keg in order.order_items.all %}
@@ -41,11 +43,12 @@
                             <td>{{ keg.beer }} </td>
                             <td>{{ keg.quantity }} </td>
                             <td>{{ keg.brewery }} </td>
-                            <td>{{ keg.updated }} </td>             
-                            <td>{{ keg.status }} </td>
-                            <td></td>
+                            <td>{{ keg.updated }} </td>
+                            <td></td>             
+                            <td>{{ keg.status }} </td>                        
                         </tr>
                         {% endfor %}
+                        
                     </tbody>
                 </table>
             </div>

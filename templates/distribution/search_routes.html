@@ -4,10 +4,10 @@
         <form action="{%url 'search_routes' %}" method="POST">
             {% csrf_token %}
             <div>
-                <h3 class="mb-2"> Search Routes</h3>
+                <h3 class="my-3"> Search Routes</h3>
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Truck Number</span>
-                    <select name="truck_num" class="form-control bg-secondary text-white bg-opacity-25"
+                    <select name="truck_num" class="form-control bg-black bg-opacity-50 text-white"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
                         <option>Select</option>
                         <option value="1">Truck 1</option>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Day</span>
-                    <select name="day" class="form-control bg-secondary text-white bg-opacity-25"
+                    <select name="day" class="form-control bg-black bg-opacity-50 text-white"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">>
                         <option >Select</option>
                         <option value="Monday">Monday</option>
@@ -32,9 +32,9 @@
             </div>
             <button type="submit" class="mb-4 btn btn-outline-success">Submit</button>
         </form>
-        {% if day_route %}
+        
         {% for route in day_route %}
-        <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+        <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
             
             Truck {{route.truck_num}} • {{route.day}}<br>
 
@@ -48,12 +48,7 @@
             <a href="{% url 'prop_details' property.id%}" class="btn btn-outline-success m-2">{{property}}</a>
             {% endfor %}
             {% endfor %}
-            {% else %}
-            <div class="alert alert-warning bg-opacity-25" role="alert">
-                No trucks on this route.
-              </div>
             
-            {% endif %}
         </div>
     </div>
 </div>

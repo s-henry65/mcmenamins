@@ -1,13 +1,10 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect
 import requests
 from django.contrib.auth.decorators import login_required, permission_required
 from mcmen_dist_app.models import PostComment, Property
-from mcmen_dist_app.models import Driver
 from mcmen_dist_app.models import Route
 from mcmen_dist_app.models import Article, PostComment
-from mcmen_dist_app.models import Images
-# from mcmen_inventory_app.models import Brewer
-
 from django.contrib import messages
 
 from decouple import config
@@ -35,14 +32,17 @@ def search_routes(request):
         return render(request, 'distribution/search_routes.html') 
     elif request.method == 'POST':
         props = Property.objects.all()
-        routes = Route.objects.all()
-        # print(routes)
         route_truck = request.POST['truck_num']
         route_day = request.POST['day']
         # print(route_truck, route_day)
         day_route = Route.objects.filter(truck_num=route_truck, day=route_day)
-        # print(day_route)
-    return render(request, 'distribution/search_routes.html', {'day_route': day_route, 'props': props})
+        context = {'day_route': day_route, 'props': props
+        }
+        if day_route.count() == 0:
+            messages.warning(request, (f'There are currently no routes for Truck {route_truck} on {route_day}.'))
+            return render(request, 'distribution/search_routes.html', context)
+        else:
+            return render(request, 'distribution/search_routes.html', context)
 
 @login_required
 def add_driver_post(request):

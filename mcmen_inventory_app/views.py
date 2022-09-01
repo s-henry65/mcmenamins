@@ -3,37 +3,33 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from mcmen_inventory_app.models import Kegs
 from mcmen_inventory_app.models import Brewery
+from mcmen_inventory_app.models import BrewLog
+from mcmen_inventory_app.models import BrewLogComment
 from mcmen_dist_app.models import Property
 from mcmen_order_app.models import OrderItem
-
+from mcmen_user_app.models import UserProfile
 
 @login_required
 def index_inventory(request):
+    current_user = request.user
+    user_id = current_user.id
+    user_data = UserProfile.objects.get(user_name = user_id)
     breweries = Brewery.objects.all()
-    # print('START')
     keg_totals = {}
     keg_data = Kegs.objects.all()
-    # order_data = PropOrder.objects.all()
-    # print(keg_data)
-    # print(keg_data.count())
     counter = 0
     for keg in keg_data:
-        # print('FOR ', counter, ' ', keg_data[counter].beer)
         counter2 = counter + 1
-        # print('WHILE ', counter2)
         while counter2 <= (len(keg_data)) -1:
             if (keg_data[counter].beer) == (keg_data[counter2].beer):
                 (keg_data[counter2].quantity) = (keg_data[counter2].quantity) + (keg_data[counter].quantity)   
                 counter2 += 1
-                # print('MATCH')
             else:
                 keg_totals[keg.beer] = keg.quantity     
             counter2 += 1      
         counter += 1
-    # print('DICT ', keg_totals)
-
     context = {
-        'keg_totals' : keg_totals, 'breweries' : breweries,
+        'keg_totals' : keg_totals, 'breweries' : breweries, 'user_data': user_data,
     }
     return render(request, 'inventory/index_inventory.html', context)
 
@@ -44,14 +40,17 @@ def all_breweries(request):
 
 @login_required
 def brewery_details(request, id):
+    current_user = request.user
+    user_id = current_user.id
+    user_data = UserProfile.objects.get(user_name = user_id)
     breweries = Brewery.objects.all()
     orders = OrderItem.objects.filter(brewery = id)
     brew_prop = Brewery.objects.get(id = id)
     property = Property.objects.all()
-    keg_data = Kegs.objects.filter(brewery = id)
+    keg_totals = Kegs.objects.filter(brewery = id)
     context = {
-        'keg_data': keg_data, 'property' : property, 'brew_prop' : brew_prop,
-        'orders' : orders, 'breweries' : breweries,
+        'keg_totals': keg_totals, 'property' : property, 'brew_prop' : brew_prop,
+        'orders' : orders, 'breweries' : breweries, 'user_data': user_data,
         }
     return render(request, 'inventory/brewery_details.html', context)
 
@@ -128,9 +127,52 @@ def delete_order(request, id, pk):
 
 @login_required
 def inventory_view(request, id):
-    brewery = Brewery.objects.get(id = id)
-    # print(brewery.id)
-    brewery.inv_view = request.POST['inv_view']
-    # print('HERE ',brewery.inv_view)
-    brewery.save()
+    current_user = request.user
+    user_id = current_user.id
+    user_data = UserProfile.objects.get(id = user_id)
+    user_data.view_pref = request.POST['inv_view']
+    user_data.save()
     return redirect('brew_details', id)
+
+@login_required
+def add_brewer_post(request):
+    current_user = request.user
+    breweries = Brewery.objects.all()
+    context = {
+        'breweries': breweries,
+        }
+    if request.method == 'GET':
+        return render(request, 'inventory/add_brewer_post.html', context)
+    elif request.method == 'POST':
+        title = request.POST['title']
+        text = request.POST['text']
+        # pub_date = request.POST['pub_date']
+        author = (current_user.first_name + ' ' + current_user.last_name)
+        BrewLog.objects.create(author = author, title = title, text = text)
+        return redirect('all_brew_posts')
+
+@login_required
+def all_brew_posts(request):
+    breweries = Brewery.objects.all()
+    articles = BrewLog.objects.all()
+    comments = BrewLogComment.objects.all()
+    context = {
+        'articles': articles, 'comments': comments, 'breweries': breweries,
+        }
+    return render(request, 'inventory/view_brew_posts.html', context)
+
+@login_required
+def brew_post_details(request, id):
+    breweries = Brewery.objects.all()
+    article = BrewLog.objects.get(id = id)
+    comments = BrewLogComment.objects.filter(post_connected=article.id)
+    context = { "article": article, "comments": comments, 'breweries': breweries,}
+    current_user = request.user
+    if request.method == 'GET':
+        return render(request, 'inventory/brewer_post_details.html', context)
+    elif request.method == 'POST':
+        content = request.POST['content']
+        author = (current_user.first_name + ' ' + current_user.last_name)
+        post_connected = article
+        BrewLogComment.objects.create(author = author, post_connected = post_connected, content = content)
+        return redirect('all_brew_posts')

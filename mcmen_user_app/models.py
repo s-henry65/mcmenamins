@@ -10,9 +10,10 @@ class UserProfile(models.Model):
     email = models.EmailField()
     job_title = models.CharField(max_length=20)
     home_base = models.ForeignKey(Property, on_delete=models.CASCADE)
+    view_pref = models.CharField(max_length=20, default='Graph')
 
     def __str__(self):
-        return self.last_name + ', ' + self.first_name
+        return self.last_name + ', ' + self.first_name + ', ' + self.job_title
     
     class Meta:
         ordering = ('last_name',)

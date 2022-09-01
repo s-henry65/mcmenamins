@@ -20,14 +20,13 @@ def router(request):
     try:
         current_user = request.user
         id = current_user.id
-        user_data = UserProfile.objects.get(user_name = id)
-        # print(user_data, id)
+        user_data = UserProfile.objects.get(user_name = current_user)
         context = { 'user_data' : user_data
         }
         return render(request, 'distribution/router.html', context)
     except:
         messages.warning(request, 'Please setup a User Profile to continue')
-        return redirect('create_profile',)
+        return redirect('create_profile', id)
 
 def login_user(request):
     username = request.POST['username']
@@ -44,12 +43,11 @@ def logout_user(request):
     logout(request)
     return redirect('landing')
 
-def create_user_profile(request):
+def create_user_profile(request, id):
     props = Property.objects.all()
     current_user = request.user
-    id = current_user.id
+    # id = current_user.id
     user_info = User.objects.get(id=id)
-    print(id, user_info.first_name)
     context = { 'props' : props, 'user_info' : user_info
     }
     if request.method == 'GET':
@@ -70,8 +68,8 @@ def create_user_profile(request):
 
 def update_profile(request):
     current_user = request.user
-    id = current_user.id
-    user_data = UserProfile.objects.get(id = id)
+    # id = current_user.id
+    user_data = UserProfile.objects.get(user_name = current_user)
     props = Property.objects.all()
     # print(user_data.id)
     context = { 'props' : props, 'user_data' : user_data
@@ -108,8 +106,9 @@ def create_user(request):
 @login_required
 def view_users(request):
   staff= User.objects.order_by('username')
+  profile = UserProfile.objects.all()
   context = {
-        'staff': staff,
+        'staff': staff, 'profile': profile,
     }
   return render(request, 'user/view_all_users.html', context)
 

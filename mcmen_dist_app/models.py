@@ -1,19 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Driver(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    nick_name = models.CharField(max_length=20)
-    phone_num = models.CharField(max_length=20)
-    
-
-    def __str__(self):
-        return self.nick_name
-    
-    class Meta:
-        ordering = ('nick_name',)
-
 class Property(models.Model):
     code = models.CharField(max_length=10)
     latitude = models.FloatField(max_length=20)
@@ -39,7 +26,7 @@ class Property(models.Model):
 class Route(models.Model):
     truck_num = models.CharField(max_length=10)
     day = models.CharField(max_length=10)
-    drivers = models.ManyToManyField(Driver)
+    drivers = models.ManyToManyField(User)
     properties = models.ManyToManyField(Property)
 
     def __str__(self):

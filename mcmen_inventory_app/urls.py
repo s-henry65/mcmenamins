@@ -11,4 +11,7 @@ urlpatterns = [
     path('delete_keg/<int:id>/<pk>', views.delete_keg, name = 'remove'),
     path('delete_order/<int:id>/<pk>', views.delete_order, name = 'cancel'),
     path('adj_view/<int:id>', views.inventory_view, name = 'adj_view'),
+    path('all_brew_posts/', views.all_brew_posts, name = 'all_brew_posts'),
+    path('brew_post_details/<int:id>', views.brew_post_details, name = 'brew_post_details'),
+    path('add_brewer_post/', views.add_brewer_post, name = 'add_brewer_post'),
    ]

@@ -13,6 +13,8 @@
                             <th scope="col">Order Date</th>
                             <th scope="col">Manager</th>
                             <th scope="col">Upadated</th>
+                            <th scope="col">Keg Total</th>
+                            <th scope="col">Cart Status</th>
                             <th scope="col">Order Status</th>
                         </tr>
                     </thead>
@@ -20,8 +22,10 @@
                         <tr>
                             <td>{{ order.property.name }} </td>
                             <td>{{ order.order_date }} </td>
-                            <td>{{ order.manager}} </td>
+                            <td>{{ order.manager.first_name }} {{order.manager.last_name}} </td>
                             <td>{{ order.updated}} </td>
+                            <td>{{ order.keg_count }} </td>
+                            <td>{{ order.cart_status }} </td>
                             <td>{{ order.status }} </td>
                         </tr>
                         <thead>
@@ -30,7 +34,9 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Brewery</th>
                                 <th scope="col">Upadated</th>
-                                <th scope="col">Item Status</th>
+                                <th></th>
+                                <th></th>
+                                <th scope="col">Keg Status</th>
                             </tr>
                         </thead>
                         {% for keg in order.order_items.all %}
@@ -39,14 +45,16 @@
                             <td>{{ keg.quantity }} </td>
                             <td>{{ keg.brewery }} </td>
                             <td>{{ keg.updated }} </td>
+                            <th></th>
+                            <th></th>
                             <td>{{ keg.status }} </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <a href="{% url 'order_delivered' order.id %}" class="btn btn-sm btn-warning mb-4">Delivered</a>
-            <a href="" class="btn btn-sm btn-success mb-4">Archive</a>
+            <a href="{% url 'close_order' order.id %}" class="btn btn-sm btn-success mb-4">Order Delivered</a>
+            <a href="{% url 'archive_order' order.id %}" class="btn btn-sm btn-warning mb-4">Archive Order</a>
             {% endfor %}
         </div>
     </div>

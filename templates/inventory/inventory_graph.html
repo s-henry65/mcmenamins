@@ -7,10 +7,10 @@
                 const myChart1 = new Chart(ctx1, {
                     type: 'pie',
                     data: {
-                        labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                        labels: [{% for data in keg_totals %} '{{ data.beer }}',{% endfor %}],
                 datasets: [{
                     label: 'Kegs',
-                    data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+                    data: [{% for data in keg_totals %} '{{ data.quantity }}', {% endfor %}],
 
                     backgroundColor: [
                         'rgba(200, 0, 10, 0.75)',
@@ -54,10 +54,10 @@
                 const myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: [{% for data in keg_data %} '{{ data.beer }}',{% endfor %}],
+                        labels: [{% for data in keg_totals %} '{{ data.beer }}',{% endfor %}],
                 datasets: [{
                     label: 'Beer Kegs',
-                    data: [{% for data in keg_data %} '{{ data.quantity }}', {% endfor %}],
+                    data: [{% for data in keg_totals %} '{{ data.quantity }}', {% endfor %}],
                     backgroundColor: [
                         'rgba(200, 0, 10, 0.75)',
                         'rgba(120, 80, 200, 0.75)',

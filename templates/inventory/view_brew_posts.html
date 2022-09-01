@@ -1,0 +1,22 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container-sm p-3">
+  
+    <h3>All Posts</h3>
+    {% for post in articles reversed %}
+    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
+      <div class="row justify-content-between">
+          <div class="col-7">
+            {{post.author}}<br>
+            {{post.pub_date}}<br>
+            {{post.comments.all | length}} Comments<br>
+          </div>
+          <div class="col-5">
+            <a href="{% url 'brew_post_details' post.id%}" class="btn btn-outline-success mt-1">{{post.title}}</a><br>
+          </div>
+      </div>
+  
+    </div>
+    {% endfor %}
+    
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 <div class="container-sm">
   <div class=p-2>
     <h3>Post</h3>
-    <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
       {{ article.author }}<br />
       {{ article.pub_date }}<br />
       <p class="text-decoration-underline">{{ article.title }}</p>
@@ -10,7 +10,7 @@
     </div>
     <h3>Comments</h3>
     {% for comment in comments %}
-    <div class="mb-4 form-control bg-secondary text-white bg-opacity-25 border border-secondary">
+    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
       {{ comment.author }}<br />
       <p>{{ comment.date_posted }}</p>
       {{ comment.content }}<br />
@@ -23,7 +23,7 @@
       
       <div class="input-group mb-4">
         <span class="input-group-text">Comment</span>
-        <textarea class="form-control bg-secondary text-white bg-opacity-25" rows="5" name="content"
+        <textarea class="form-control bg-black bg-opacity-50 text-white" rows="5" name="content"
           aria-label="With textarea"></textarea>
       </div>
       

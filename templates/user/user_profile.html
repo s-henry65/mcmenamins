@@ -1,14 +1,13 @@
 {% extends 'base_form.html' %} {% block content %}
     <div class="container">
-        <div class="d-flex my-4 justify-content-center">
+        <div class="d-flex mb-2 mt-3 justify-content-center">
             <div class="col-md-12 text-center">
-                <img src="/uploaded_files/images/mc_logo_md.png" class="img-fluid">
                 <h3> User Profile Creation</h3>
             </div>
         </div>
 
-        <div class="d-flex my-4 justify-content-center">
-            <form action="{% url 'create_profile' %}" method="POST">
+        <div class="d-flex my-2 justify-content-center">
+            <form action="{% url 'create_profile' user.id%}" method="POST">
                 {% csrf_token %}
                 <div class="row my-4">
                     <div class="col-md-12 text-center">
@@ -40,6 +39,7 @@
                             <select name="home_base"
                                 class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
                                 aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <option>Select</option>
                                 {% for prop in props %}
                                 <option value="{{prop.id}}">{{prop.name}}</option>
                                 {% endfor %}
@@ -63,15 +63,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="d-flex justify-content-center">
-            {%if messages%}
-            {%for message in messages%}
-            <div class=alert {{message.tags}}>
-                {{message}}
-            </div>
-            {%endfor%}
-            {%endif%}
         </div>
     </div>
 {% endblock %}
