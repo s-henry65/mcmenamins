@@ -20,7 +20,7 @@
         {% endif %}
         <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
             {% csrf_token %}
-            <div class="input-group my-4">
+            <div class="input-group input-group-sm my-4">
                 <span class="input-group-text" id="inputGroup-sizing-sm">Inventory View</span>
                 <select name="inv_view" class="form-control bg-black bg-opacity-50 text-white"
                     aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
