@@ -11,6 +11,11 @@ from mcmen_user_app.models import UserProfile
 
 @login_required
 def index_inventory(request):
+  breweries = Brewery.objects.all()
+  return render(request, 'inventory/index_inventory.html', {'breweries': breweries})
+
+@login_required
+def total_inventory(request):
     current_user = request.user
     user_id = current_user.id
     user_data = UserProfile.objects.get(user_name = user_id)
@@ -31,7 +36,7 @@ def index_inventory(request):
     context = {
         'keg_totals' : keg_totals, 'breweries' : breweries, 'user_data': user_data,
     }
-    return render(request, 'inventory/index_inventory.html', context)
+    return render(request, 'inventory/total_inventory.html', context)
 
 @login_required
 def all_breweries(request):
@@ -133,6 +138,15 @@ def inventory_view(request, id):
     user_data.view_pref = request.POST['inv_view']
     user_data.save()
     return redirect('brew_details', id)
+
+@login_required
+def total_inventory_view(request):
+    current_user = request.user
+    user_id = current_user.id
+    user_data = UserProfile.objects.get(id = user_id)
+    user_data.view_pref = request.POST['inv_view']
+    user_data.save()
+    return redirect('inventory')
 
 @login_required
 def add_brewer_post(request):

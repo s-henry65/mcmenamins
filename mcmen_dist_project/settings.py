@@ -141,3 +141,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'landing'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+try:
+    from .local import *
+except ImportError:
+    print("In production")

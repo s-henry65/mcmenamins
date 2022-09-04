@@ -12,6 +12,10 @@ from mcmen_user_app.models import UserProfile
 from datetime import date
 
 @login_required
+def order_index(request):
+    return render(request, 'order/index_order.html')
+
+@login_required
 def order(request, id):
     current_user = request.user
     breweries = Brewery.objects.all()

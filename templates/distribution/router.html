@@ -10,7 +10,7 @@
             <div class="row my-4 justify-content-center">
                 <div class="col-md-4 text-center">
                     <img src="/uploaded_files/images/pub.jpg" class="img-fluid">
-                    <a class="router nav-link link-warning" href="{% url 'order' user.id %}">Pub Managers</a>
+                    <a class="router nav-link link-warning" href="/order_index">Pub Managers</a>
                 </div>
                 <div class="col-md-4 text-center">
                     <img src="/uploaded_files/images/drivers.jpg" class="img-fluid">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <img src="/uploaded_files/images/brewers.jpg" class="img-fluid">
-                    <a class="router nav-link link-warning" href="/inventory/">Brewers</a>
+                    <a class="router nav-link link-warning" href="/index_inventory/">Brewers</a>
                 </div>
                 {% if user.is_authenticated and user.is_staff %}
                 {% include 'distribution/admin.html' %}
