@@ -63,15 +63,13 @@ def brewery_details(request, id):
 def add_update_kegs(request, id):
     breweries = Brewery.objects.all()
     brewery = Brewery.objects.get(id = id)
-    try:
-        keg_data = Kegs.objects.filter(brewery = id)
-        context = {'brewery' : brewery, 'keg_data' : keg_data,
+    keg_data = Kegs.objects.filter(brewery = id)
+    context = {'brewery' : brewery, 'keg_data' : keg_data,
             'breweries' : breweries,
-        }
-    except:
-        context = {'brewery' : brewery,
+    }
+    context = {'brewery' : brewery,
             'breweries' : breweries,
-        }
+    }
     if request.method == 'GET':
         return render(request, 'inventory/add_update_kegs.html', context)
     # Adding a new keg of beer
