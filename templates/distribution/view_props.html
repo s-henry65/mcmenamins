@@ -1,19 +1,20 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container-sm p-3">
-    <h3 class="my-3">All Properties</h3>
-    {% for prop in props %}
-    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
-        <div class="row justify-content-between">
-            <div class="col-8">
-            {{prop.name}}<br>
-            {{prop.phone_num}}</br>
-            </div>
-            <div class="col-4 p-2">
-                <a href="{% url 'prop_details' prop.id%}" class="btn btn-outline-success">{{prop.code}}</a>
+<div class="d-flex my-2 p-2 justify-content-center">
+    <div class="col-md-6 mb-3 ">
+        <h3 class="my-3">All Properties</h3>
+        {% for prop in props %}
+        <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
+            <div class="row justify-content-between">
+                <div class="col-6">
+                    {{prop.name}}<br>
+                    {{prop.phone_num}}</br>
+                </div>
+                <div class="col-4 p-2">
+                    <a href="{% url 'prop_details' prop.id%}" class="btn btn-outline-success">{{prop.code}}</a>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-
 </div>
 {% endblock %}

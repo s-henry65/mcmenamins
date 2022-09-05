@@ -18,20 +18,24 @@
         {% else %}
         {% include 'inventory/brewery_inventory.html' %}
         {% endif %}
-        <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
-            {% csrf_token %}
-            <div class="input-group input-group-sm my-4">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Inventory View</span>
-                <select name="inv_view" class="form-control bg-black bg-opacity-50 text-white"
-                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                    <option value="{{user_data.view_pref}}">{{user_data.view_pref}} (current)</option>
-                    <option value="Graph">Graph</option>
-                    <option value="Table">Table</option>
-                </select>
-                <button type="submit" class="btn btn-sm btn-outline-success ms-2">Submit</button>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm mb-4">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Inventory View</span>
+                        <select name="inv_view" class="form-control bg-black bg-opacity-50 text-white"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                            <option value="{{user_data.view_pref}}">{{user_data.view_pref}} (current)</option>
+                            <option value="Graph">Graph</option>
+                            <option value="Table">Table</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-success ms-2">Submit</button>
+                    </div>
+                </form>
             </div>
-        </form>
-        <div class="row my-4">
+        </div>
+        <div class="row mb-2">
             <div class="col-md-12 mb-3">
                 <h3>Orders</h3>
                 <div
@@ -54,8 +58,8 @@
                                 <td> {{ order.beer }} </td>
                                 <td> {{ order.quantity }} </td>
                                 <td> {{ order.property }} </td>
-                                <td>{{ order.order_date }} </td>
-                                <td> {{ order.manager.first_name}}  {{order.manager.last_name}}</td>
+                                <td> {{ order.order_date }} </td>
+                                <td> {{ order.manager.first_name}} {{order.manager.last_name}}</td>
                                 <td> {{ order.updated}} </td>
                                 <td> {{ order.status }} </td>
                                 <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
@@ -69,5 +73,5 @@
                 </div>
             </div>
         </div>
-    <div>
-        {% endblock %}
+        <div>
+            {% endblock %}

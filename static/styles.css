@@ -30,6 +30,9 @@ body {
     max-height: 500px;
     border-radius: 8px;
 }
+img {
+    border-radius: 8px;
+}
 
 .navbar {
     font-family:Verdana, Geneva, Tahoma, sans-serif;
