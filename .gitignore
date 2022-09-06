@@ -1,7 +1,6 @@
 .env
 key.js
 key.json
-db.sqlite3
 stuff.txt
 local.py
 tokens.txt

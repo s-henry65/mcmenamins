@@ -13,7 +13,7 @@ from datetime import date
 
 @login_required
 def order_index(request):
-    return render(request, 'order/index_order.html')
+    return render(request, 'order/order_index.html')
 
 @login_required
 def order(request, id):
@@ -61,7 +61,7 @@ def view_cart(request, id):
                    }
         return redirect('view_cart', id)
         # print('ORDER CT', item.count())
-        
+
 
 @login_required
 def place_order(request, id):
@@ -82,7 +82,7 @@ def place_order(request, id):
                    'breweries': breweries, 'cart': cart,
                    }
             return render(request, 'order/place_order.html', context)
-        except:   
+        except:
             order = Order.objects.create(
             manager=current_user, order_date=today, property=prop, cart_status='Open')
             context = {'order': order, 'keg_data': keg_data, 'property': property, 'brew_prop': brew_prop,

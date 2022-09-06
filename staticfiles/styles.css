@@ -26,8 +26,11 @@ body {
     max-width: 600px;
     border-radius: 10px;
 }
+.indexpic {
+    max-height: 500px;
+    border-radius: 8px;
+}
 img {
-    max-width: 1000px;
     border-radius: 8px;
 }
 
