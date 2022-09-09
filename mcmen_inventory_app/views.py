@@ -67,9 +67,6 @@ def add_update_kegs(request, id):
     context = {'brewery' : brewery, 'keg_data' : keg_data,
             'breweries' : breweries,
     }
-    context = {'brewery' : brewery,
-            'breweries' : breweries,
-    }
     if request.method == 'GET':
         return render(request, 'inventory/add_update_kegs.html', context)
     # Adding a new keg of beer

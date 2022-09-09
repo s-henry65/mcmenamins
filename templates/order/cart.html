@@ -43,13 +43,21 @@
                             <td></td>
                             <td>{{ keg.status }} </td>
                             <td><a href="{% url 'remove_item' keg.id order.id %}" method="POST"
-                                class="btn btn-sm btn-danger">Delete</a></td>
+                                    class="btn btn-sm btn-danger">Delete</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-            <a href="{% url 'close_cart' order.id %}" class="btn btn-sm btn-success">Submit Order</a>
+                <form action="{% url 'close_cart' order.id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">Notes</span>
+                        <textarea class="form-control bg-black bg-opacity-50 text-white" rows="3" name="text"
+                            aria-label="With textarea"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-sm btn-success">Submit Order</button>
+                </form>
             {% endfor %}
         </div>
     </div>

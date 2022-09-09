@@ -4,3 +4,5 @@ key.json
 stuff.txt
 local.py
 tokens.txt
+db.sqlite3
+__pycache__/

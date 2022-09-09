@@ -52,6 +52,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {{ order.notes }}
             </div>
             <a href="{% url 'close_order' order.id %}" class="btn btn-sm btn-success mb-4">Order Delivered</a>
             <a href="{% url 'archive_order' order.id %}" class="btn btn-sm btn-warning mb-4">Archive Order</a>

@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=30)
     phone_num = models.CharField(max_length=20)
     email = models.EmailField()
-    job_title = models.CharField(max_length=20)
+    job_title = models.CharField(max_length=30)
     home_base = models.ForeignKey(Property, on_delete=models.CASCADE)
     view_pref = models.CharField(max_length=20, default='Graph')
 

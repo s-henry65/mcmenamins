@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
-import requests
 from django.contrib.auth.decorators import login_required
 from mcmen_order_app.models import OrderItem
 from mcmen_order_app.models import Order
 from django.contrib import messages
-from mcmen_dist_app.models import User
 from mcmen_inventory_app.models import Brewery
 from mcmen_dist_app.models import Property
 from mcmen_inventory_app.models import Kegs
@@ -13,7 +11,11 @@ from datetime import date
 
 @login_required
 def order_index(request):
-    return render(request, 'order/order_index.html')
+    breweries = Brewery.objects.all()
+    context = { 
+        'breweries': breweries,
+    }
+    return render(request, 'order/order_index.html', context)
 
 @login_required
 def order(request, id):
@@ -109,6 +111,8 @@ def place_order(request, id):
 @login_required
 def close_cart(request, id):
     order = Order.objects.get(id=id)
+    notes = request.POST['text']
+    order.notes = notes
     order.cart_status = 'Closed'
     order.save()
     current_user = request.user
@@ -120,7 +124,7 @@ def remove_item(request, id, pk):
     order = Order.objects.get(id = pk)
     keg = OrderItem.objects.get(id = id)
     order.keg_count -= keg.quantity
-    print(order.keg_count)
+    # print(order.keg_count)
     order.save()
     keg.delete()
     return redirect('view_cart', pk)
