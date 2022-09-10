@@ -45,15 +45,16 @@
                             <td><a href="{% url 'remove_item' keg.id order.id %}" method="POST"
                                     class="btn btn-sm btn-danger">Delete</a></td>
                         </tr>
+                        <p>{{ keg.notes }}</p>
                         {% endfor %}
                     </tbody>
                 </table>
                 <form action="{% url 'close_cart' order.id %}" method="POST">
                     {% csrf_token %}
                     <div class="input-group mb-4">
-                        <span class="input-group-text">Notes</span>
-                        <textarea class="form-control bg-black bg-opacity-50 text-white" rows="3" name="text"
-                            aria-label="With textarea"></textarea>
+                        <span class="input-group-text">Delivery Notes</span>
+                        <textarea class="form-control bg-black bg-opacity-50 text-white border border-secondary"
+                            rows="2" name="text" aria-label="With textarea"></textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-sm btn-success">Submit Order</button>

@@ -38,8 +38,9 @@
         <div class="row mb-2">
             <div class="col-md-12 mb-3">
                 <h3>Orders</h3>
+                {% for order in orders reversed %}
                 <div
-                    class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2 border border-secondary">
+                    class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-4 border border-secondary">
                     <table class="table text-white">
                         <thead>
                             <tr>
@@ -53,7 +54,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for order in orders reversed %}
                             <tr>
                                 <td> {{ order.beer }} </td>
                                 <td> {{ order.quantity }} </td>
@@ -67,11 +67,13 @@
                                 <td><a href="{% url 'cancel' order.id brew_prop.id %}" method="POST"
                                         class="btn btn-sm btn-danger">Delete</a></td>
                             </tr>
-                            {% endfor %}
                         </tbody>
                     </table>
+                    {{ order.notes }}
                 </div>
+                {% endfor %}
             </div>
         </div>
-        <div>
-            {% endblock %}
+    </div>
+<div>
+{% endblock %}

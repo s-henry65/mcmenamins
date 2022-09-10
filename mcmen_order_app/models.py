@@ -15,6 +15,7 @@ class OrderItem(models.Model):
     order_date = models.DateField()
     updated = models.DateField(auto_now=True)
     status = models.CharField(max_length=10, default='Pending')
+    notes = models.CharField(max_length=300, blank=True)
 
     def __str__(self):
         return f'{self.property} •{self.brewery} •{self.order_date} •{self.beer} •{self.quantity}'

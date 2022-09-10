@@ -95,16 +95,17 @@ def place_order(request, id):
     elif request.method == 'POST':
         beer = Kegs.objects.get(id=request.POST['beer'])
         quantity = request.POST['quantity']
+        notes = request.POST['text']
         property = prop
         brewery = brew_prop
         manager = current_user
         keg_order = OrderItem.objects.create(beer = beer, quantity = quantity, property = property,
-            brewery = brewery, manager = manager, order_date = today)
+            brewery = brewery, manager = manager, order_date = today, notes = notes)
         order = Order.objects.get(manager=current_user, cart_status='Open')
         item = OrderItem.objects.get(id = keg_order.id)
         order.order_items.add(item)
         order.keg_count += item.quantity
-        print(order.keg_count)
+        # print(order.keg_count)
         order.save()
         return redirect('place_order', id)
 
