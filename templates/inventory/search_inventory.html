@@ -1,0 +1,57 @@
+{% extends 'base_inventory.html' %} {% block content %}
+<div class="container-sm p-3">
+    <div class="row my-2">
+        <div class="col-md-3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <h3 class="mb-3">Search</h3>
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Criteria</span>
+                    <select name="criteria" required
+                        class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <option>Select</option>
+                        <option value="beer">Beer/Size</option>
+                        <option value="category">Category</option>
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Key Word</span>
+                    <input type="text" name="key word" required
+                        class="form-control bg-secondary bg-opacity-50 text-white border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <button type="submit" class="mb-4 btn btn-outline-success">Submit</button><br>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <h3 class="mb-3">Inventory </h3>
+            <div class="form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+                <table class="table text-white">
+                    <thead>
+                        <tr class="bg-info bg-opacity-50">
+                            <th scope="col">Brewery</th>
+                            <th scope="col">Beer/size</th>
+                            <th scope="col">Qty.</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for keg in keg_totals %}
+                        {% for brewery in keg.brewery.all %}
+                        <tr>
+                            <td> {{ brewery }} </td>
+                            <td> {{ keg.beer }} </td>
+                            <td> {{ keg.quantity }} </td>
+                            <td> <a href="{% url 'brew_details' brewery.id %}" method="POST"
+                                class="btn btn-sm btn-warning">Visit</a></td>
+                        </tr>               
+                        {% endfor %}
+                        {% endfor %}                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

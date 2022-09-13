@@ -8,6 +8,7 @@ from mcmen_inventory_app.models import BrewLogComment
 from mcmen_dist_app.models import Property
 from mcmen_order_app.models import OrderItem
 from mcmen_user_app.models import UserProfile
+from django.contrib import messages
 
 @login_required
 def index_inventory(request):
@@ -39,10 +40,35 @@ def total_inventory(request):
     return render(request, 'inventory/total_inventory.html', context)
 
 @login_required
-def all_breweries(request):
-  breweries = Brewery.objects.all()
-  return render(request, 'inventory/view_breweries.html', {'breweries': breweries})
-
+def search_inventory(request):
+    breweries = Brewery.objects.all()
+    context = {
+        'breweries': breweries, 
+    }
+    if request.method == 'GET':
+        return render(request, 'inventory/search_inventory.html', context)
+    elif request.method == 'POST':
+        criteria = request.POST['criteria']
+        key_word = request.POST['key word']
+        if criteria == 'beer':
+            keg_totals = Kegs.objects.filter(beer=key_word)
+            context = {
+                'breweries': breweries, 'keg_totals': keg_totals,
+            }
+            if keg_totals.count() == 0:
+                messages.warning(request, (f'There is currently no inventory for {key_word}. Check spelling and capitalization.'))
+                return render(request, 'inventory/search_inventory.html', context)
+            else:
+                return render(request, 'inventory/search_inventory.html', context)
+        else:
+            keg_totals = Kegs.objects.filter(category=key_word)
+            context = {
+                'breweries': breweries, 'keg_totals': keg_totals,
+            }
+            if keg_totals.count() == 0:
+                messages.warning(request, (f'There is currently no inventory for {key_word}. Check spelling and capitalization.'))
+            return render(request, 'inventory/search_inventory.html', context)
+    
 @login_required
 def brewery_details(request, id):
     current_user = request.user

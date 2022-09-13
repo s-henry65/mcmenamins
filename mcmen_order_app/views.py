@@ -42,6 +42,7 @@ def order(request, id):
             return render(request, 'order/order.html', context)
         else:
             return render(request, 'order/order.html', context)
+            
 @login_required
 def view_cart(request, id):
     current_user = request.user

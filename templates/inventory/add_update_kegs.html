@@ -1,5 +1,5 @@
 {% extends 'base_inventory.html' %} {% block content %}
-<div class="container">
+<div class="container-sm p-3">
     <div class="row my-2">
         <div class="col-md-3">
             <form action="{% url 'add' brewery.id %}" method="POST">
@@ -38,12 +38,14 @@
             <div class="table-responsive form-control rounded bg-black bg-opacity-50 text-light p-3 border border-secondary">
                 <table class="table text-white">
                     <thead>
-                        <tr>
+                        <tr class="bg-info bg-opacity-50">
                             <th scope="col">Beer/size</th>
                             <th scope="col">Brew Date</th>
                             <th scope="col">Category</th>
                             <th scope="col">Qty.</th>
                             <th scope="col">Updated</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,5 +67,5 @@
             </div>
         </div>
     </div>
- <div>
-        {% endblock %}
+</div>
+{% endblock %}

@@ -1,35 +1,62 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container-sm">
-  <div class=p-2>
-    <h3>Post</h3>
-    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
-      {{ article.author }}<br />
-      {{ article.pub_date }}<br />
-      <p class="text-decoration-underline">{{ article.title }}</p>
-      {{ article.text }}
-    </div>
-    <h3>Comments</h3>
-    {% for comment in comments %}
-    <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
-      {{ comment.author }}<br />
-      <p>{{ comment.date_posted }}</p>
-      {{ comment.content }}<br />
-    </div>
+<div class="container">
+  <div class="d-flex my-4 justify-content-center">
+    <div class="col-md-8">
+      <h3>Post</h3>
+      <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
+        <table class="table text-white">
+          <thead>
+            <tr class="bg-info bg-opacity-50">
+              <th scope="col">Author</th>
+              <th scope="col">Post Date</th>
+              <th scope="col">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> {{ article.author }} </td>
+              <td> {{ article.pub_date }} </td>
+              <td> {{ article.title }} </td>
+            </tr>
+          </tbody>
+        </table>
+        {{ article.text }}
+      </div>
+      <h3>Comments</h3>
+      {% for comment in comments %}
+      <div class="mb-4 form-control bg-black bg-opacity-50 text-white border border-secondary">
+        <table class="table text-white">
+          <thead>
+            <tr class="bg-info bg-opacity-50">
+              <th scope="col">Author</th>
+              <th scope="col">Post Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> {{ comment.author }} </td>
+              <td> {{ comment.date_posted }} </td>
+            </tr>
+          </tbody>
+        </table>
+        {{ comment.content }}
+      </div>
       {% endfor %}
       <a href="javascript:history.back()" class="mb-4 btn btn-outline-success">Return to Posts</a>
-    <form action="{% url 'details' article.id %}" method="POST">
-      {% csrf_token %}
-      <h3>Post a Comment</h3>
-      
-      <div class="input-group mb-4">
-        <span class="input-group-text">Comment</span>
-        <textarea class="form-control bg-black bg-opacity-50 text-white" rows="5" name="content"
-          aria-label="With textarea"></textarea>
-      </div>
-      
+      <form action="{% url 'details' article.id %}" method="POST">
+        {% csrf_token %}
+        <h3>Post a Comment</h3>
+
+        <div class="input-group mb-4">
+          <span class="input-group-text">Comment</span>
+          <textarea class="form-control bg-black bg-opacity-50 text-white" rows="5" name="content"
+            aria-label="With textarea"></textarea>
+        </div>
+
         <button type="submit" class="btn btn-outline-success">Submit</button>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
-</div>
+
 {% endblock %}

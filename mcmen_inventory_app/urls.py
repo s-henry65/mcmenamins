@@ -4,7 +4,6 @@ from . import views
 urlpatterns = [
     path('index_inventory/', views.index_inventory, name = 'index_inventory'),
     path('inventory/', views.total_inventory, name = 'inventory'),
-    path('breweries/', views.all_breweries, name = 'breweries'),
     path('brewery_details/<int:id>', views.brewery_details, name = 'brew_details'),
     path('add_kegs/<int:id>', views.add_update_kegs, name = 'add'),
     path('update_kegs/<int:id>/<pk>', views.update_kegs, name = 'keg_update'),
@@ -16,4 +15,5 @@ urlpatterns = [
     path('all_brew_posts/', views.all_brew_posts, name = 'all_brew_posts'),
     path('brew_post_details/<int:id>', views.brew_post_details, name = 'brew_post_details'),
     path('add_brewer_post/', views.add_brewer_post, name = 'add_brewer_post'),
+    path('search_inventory/', views.search_inventory, name = 'search_inventory'),
    ]

@@ -1,5 +1,6 @@
 {% extends 'base_inventory.html' %} {% block content %}
-<div class="container">
+<div class="container-sm p-3">
+
     <div class="row">
         <div class="col-auto me-auto mt-2">
             <h3>{{ brew_prop.name }} Brewery</h3>
@@ -8,6 +9,7 @@
             <a href="{% url 'add' brew_prop.id %}" class="btn btn btn-outline-success">Add/Update Inventory</a>
         </div>
     </div>
+
     <div class="container">
         Brewers
         {% for brewer in brew_prop.brewers.all %}
@@ -18,7 +20,7 @@
         {% else %}
         {% include 'inventory/brewery_inventory.html' %}
         {% endif %}
-        <div class="row">
+        <div class="d-flex">
             <div class="col-md-4">
                 <form action="{% url 'adj_view' brew_prop.id %}" method="POST">
                     {% csrf_token %}
@@ -43,7 +45,7 @@
                     class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-4 border border-secondary">
                     <table class="table text-white">
                         <thead>
-                            <tr>
+                            <tr class="bg-info bg-opacity-50">
                                 <th scope="col">Beer/size</th>
                                 <th scope="col">Qty.</th>
                                 <th scope="col">Property</th>
@@ -51,6 +53,8 @@
                                 <th scope="col">Manager</th>
                                 <th scope="col">Updated</th>
                                 <th scope="col">Status</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,5 +79,6 @@
             </div>
         </div>
     </div>
-<div>
+
+</div>
 {% endblock %}
