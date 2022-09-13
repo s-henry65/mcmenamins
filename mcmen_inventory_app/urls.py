@@ -16,4 +16,6 @@ urlpatterns = [
     path('brew_post_details/<int:id>', views.brew_post_details, name = 'brew_post_details'),
     path('add_brewer_post/', views.add_brewer_post, name = 'add_brewer_post'),
     path('search_inventory/', views.search_inventory, name = 'search_inventory'),
+    path('add_upcoming/<int:id>', views.add_upcoming, name = 'add_upcoming'),
+    path('delete_upcoming/<int:id>/<pk>', views.delete_upcoming, name = 'delete_upcoming'),
    ]

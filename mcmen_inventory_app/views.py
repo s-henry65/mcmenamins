@@ -5,6 +5,7 @@ from mcmen_inventory_app.models import Kegs
 from mcmen_inventory_app.models import Brewery
 from mcmen_inventory_app.models import BrewLog
 from mcmen_inventory_app.models import BrewLogComment
+from mcmen_inventory_app.models import ComingSoon
 from mcmen_dist_app.models import Property
 from mcmen_order_app.models import OrderItem
 from mcmen_user_app.models import UserProfile
@@ -79,9 +80,10 @@ def brewery_details(request, id):
     brew_prop = Brewery.objects.get(id = id)
     property = Property.objects.all()
     keg_totals = Kegs.objects.filter(brewery = id)
+    upcoming = ComingSoon.objects.filter(brewery = id)
     context = {
         'keg_totals': keg_totals, 'property' : property, 'brew_prop' : brew_prop,
-        'orders' : orders, 'breweries' : breweries, 'user_data': user_data,
+        'orders' : orders, 'breweries' : breweries, 'user_data': user_data, 'upcoming': upcoming,
         }
     return render(request, 'inventory/brewery_details.html', context)
 
@@ -103,7 +105,6 @@ def add_update_kegs(request, id):
         quantity = request.POST['quantity']
         kegs = Kegs.objects.create(beer = beer, brew_date = brew_date, 
         category = category, quantity = quantity)
-        print('LOOK', kegs, brewery)
         kegs.brewery.add(brewery)
         return render(request, 'inventory/add_update_kegs.html', context)
 
@@ -121,6 +122,32 @@ def update_kegs(request, id, pk):
         keg.quantity = request.POST['quantity']
         keg.save()
         return redirect('add', pk)
+
+@login_required
+def add_upcoming(request, id):
+    breweries = Brewery.objects.all()
+    brewery = Brewery.objects.get(id = id)
+    keg_data = ComingSoon.objects.filter(brewery = id)
+    context = {'brewery' : brewery, 'keg_data' : keg_data,
+            'breweries' : breweries,
+    }
+    if request.method == 'GET':
+        return render(request, 'inventory/add_coming_soon.html', context)
+    elif request.method == 'POST':
+        beer = request.POST['beer']
+        finish_date = request.POST['finish_date']
+        category = request.POST['category']
+        description = request.POST['text']
+        kegs = ComingSoon.objects.create(beer = beer, finish_date = finish_date, 
+        category = category, description = description)
+        kegs.brewery.add(brewery)
+        return render(request, 'inventory/add_coming_soon.html', context)
+
+@login_required
+def delete_upcoming(request, id, pk):
+    beer = ComingSoon.objects.get(id = id)
+    beer.delete()
+    return redirect('add_upcoming', pk)
 
 @login_required
 def update_orders(request, id, pk):

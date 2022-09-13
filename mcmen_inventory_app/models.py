@@ -46,3 +46,10 @@ class BrewLogComment(models.Model):
 
     def __str__(self):
         return str(self.author) + ', ' + self.post_connected.title[:40]
+
+class ComingSoon(models.Model):
+    beer = models.CharField(max_length=30)
+    category = models.CharField(max_length=20)
+    finish_date = models.DateField()
+    description = models.CharField(max_length=75)
+    brewery = models.ManyToManyField(Brewery)

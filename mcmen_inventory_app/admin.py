@@ -7,6 +7,7 @@ admin.site.register(models.Brewery)
 admin.site.register(models.Kegs)
 admin.site.register(models.BrewLog)
 admin.site.register(models.BrewLogComment)
+admin.site.register(models.ComingSoon)
 
 # class InventoryAdmin(admin.ModelAdmin):
 #     list_display = ('beer', 'brewery', 'quantity')

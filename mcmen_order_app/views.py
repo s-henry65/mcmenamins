@@ -4,6 +4,7 @@ from mcmen_order_app.models import OrderItem
 from mcmen_order_app.models import Order
 from django.contrib import messages
 from mcmen_inventory_app.models import Brewery
+from mcmen_inventory_app.models import ComingSoon
 from mcmen_dist_app.models import Property
 from mcmen_inventory_app.models import Kegs
 from mcmen_user_app.models import UserProfile
@@ -73,6 +74,7 @@ def place_order(request, id):
     brew_prop = Brewery.objects.get(id=id)
     property = Property.objects.all()
     keg_data = Kegs.objects.filter(brewery=id)
+    upcoming = ComingSoon.objects.filter(brewery=id)
     profile = UserProfile.objects.get(user_name=current_user)
     today = date.today()
     prop = profile.home_base
@@ -82,14 +84,14 @@ def place_order(request, id):
         try:
             cart = Order.objects.get(manager=current_user, archive=False, cart_status='Open')
             context = {'order': order, 'keg_data': keg_data, 'property': property, 'brew_prop': brew_prop,
-                   'breweries': breweries, 'cart': cart,
+                   'breweries': breweries, 'cart': cart, 'upcoming': upcoming,
                    }
             return render(request, 'order/place_order.html', context)
         except:
             order = Order.objects.create(
             manager=current_user, order_date=today, property=prop, cart_status='Open')
             context = {'order': order, 'keg_data': keg_data, 'property': property, 'brew_prop': brew_prop,
-                   'breweries': breweries,
+                   'breweries': breweries, 'upcoming': upcoming,
                    }
             return redirect('place_order', id)
     # Placing an order

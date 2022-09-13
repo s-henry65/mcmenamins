@@ -6,6 +6,7 @@
             <h3>{{ brew_prop.name }} Brewery</h3>
         </div>
         <div class="col-auto mt-2">
+            <a href="{% url 'add_upcoming' brew_prop.id %}" class="btn btn btn-outline-success">Add/Update Upcoming </a>
             <a href="{% url 'add' brew_prop.id %}" class="btn btn btn-outline-success">Add/Update Inventory</a>
         </div>
     </div>
@@ -37,8 +38,9 @@
                 </form>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col-md-12 mb-3">
+        
+        <div class="row">
+            <div class="col-md-12 mb-2">
                 <h3>Orders</h3>
                 {% for order in orders reversed %}
                 <div
@@ -78,7 +80,35 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <h3>Beer Coming Soon</h3>
+                <div
+                    class=" mt-2 mb-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+                    <table class="table text-white">
+                        <thead>
+                            <tr class="bg-info bg-opacity-50">
+                                <th scope="col">Beer</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Finish Date</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for kegs in upcoming %}
+                            <tr>
+                                <td> {{ kegs.beer }} </td>
+                                <td> {{ kegs.category }} </td>
+                                <td> {{ kegs.finish_date }} </td>
+                                <td> {{ kegs.description }} </td>
 
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
