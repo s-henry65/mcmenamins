@@ -85,12 +85,8 @@ WSGI_APPLICATION = 'mcmen_dist_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': BASE_DIR / 'mcmen-dist',
-        'USER': 'postgres',
-        'PASSWORD': 'Sk8&Enj0y',
-        'PORT': '2112',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
