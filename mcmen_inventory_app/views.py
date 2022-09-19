@@ -16,10 +16,19 @@ def brewer_check(user):
     user_data = UserProfile.objects.get(user_name = user)
     return 'Brewer' in user_data.job_title or user.is_staff
 
-@user_passes_test(brewer_check, '/router/')
+# @user_passes_test(brewer_check, '/router/')
 def index_inventory(request):
-  breweries = Brewery.objects.all()
-  return render(request, 'inventory/index_inventory.html', {'breweries': breweries})
+    breweries = Brewery.objects.all()
+    current_user = request.user
+    id = current_user.id
+    user_data = UserProfile.objects.get(user_name = current_user)
+    context = { 'user_data' : user_data
+    }
+    if 'Brewer' in user_data.job_title or current_user.is_staff:
+        return render(request, 'inventory/index_inventory.html', {'breweries': breweries})
+    else:
+        messages.warning(request, 'Sorry, you are not authorized.')
+        return render(request, 'distribution/router.html', context)
 
 @login_required
 def total_inventory(request):

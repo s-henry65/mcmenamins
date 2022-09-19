@@ -48,10 +48,6 @@
         </div>
     </nav>
 
-    <div class="container"></div>
-
-    {% block content %} {% endblock %}
-
     {%if messages%}
     {%for message in messages%}
     <div class="alert text-center" {{message.tags}}>
@@ -59,6 +55,10 @@
     </div>
     {%endfor%}
     {%endif%}
+    <div class="container"></div>
+
+    {% block content %} {% endblock %}
+
     
     <footer class="mt-auto">
         <div class="container mb-4">
