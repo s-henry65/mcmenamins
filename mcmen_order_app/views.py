@@ -13,10 +13,16 @@ from datetime import date
 @login_required
 def order_index(request):
     breweries = Brewery.objects.all()
+    current_user = request.user
+    user_data = UserProfile.objects.get(user_name = current_user)
     context = { 
-        'breweries': breweries,
+        'breweries': breweries, 'user_data': user_data,
     }
-    return render(request, 'order/order_index.html', context)
+    if 'Manager' in user_data.job_title or current_user.is_staff:
+        return render(request, 'order/order_index.html', context)
+    else:
+        messages.warning(request, 'Sorry, you are not authorized.')
+        return render(request, 'distribution/router.html', context)
 
 @login_required
 def order(request, id):

@@ -1,6 +1,7 @@
 h3 {
     color:antiquewhite;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-shadow: 2px 2px 5px black;
 }
 .router {
     font-size: 16pt;
@@ -27,7 +28,7 @@ body {
     border-radius: 10px;
 }
 .indexpic {
-    max-height: 500px;
+    max-height: 550px;
     border-radius: 8px;
 }
 img {

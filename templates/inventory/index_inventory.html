@@ -1,8 +1,41 @@
 {% extends 'base_inventory.html' %} {% block content %}
 <div class="container">
-    <h3 class="my-3 text-center">Welcome Brewery Managers</h3> 
-    <div class="d-flex justify-content-center">
-        <img src="/uploaded_files/images/index_concordia.jpg" class="indexpic img-fluid" alt="Brewery picture" alt="moto pic">
+    <h3 class="my-3 text-center">Welcome Brewery Managers</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/uploaded_files/images/index_concordia.jpg" class="d-block w-100"
+                            alt="Concordia">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Concordia</h3>
+                            </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/uploaded_files/images/index_brew_con_detail.JPG" class="d-block w-100"
+                            alt="Concordia, detail">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Concordia</h3>
+                            </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/uploaded_files/images/index_brew_wlinn.JPG" class="d-block w-100"
+                            alt="West Linn">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>West Linn</h3>
+                            </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/uploaded_files/images/index_brew_kalama.JPG" class="d-block w-100"
+                            alt="Kalama">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>Kalama</h3>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

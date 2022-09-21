@@ -10,17 +10,10 @@ from mcmen_dist_app.models import Property
 from mcmen_order_app.models import OrderItem
 from mcmen_user_app.models import UserProfile
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
 
-def brewer_check(user):
-    user_data = UserProfile.objects.get(user_name = user)
-    return 'Brewer' in user_data.job_title or user.is_staff
-
-# @user_passes_test(brewer_check, '/router/')
 def index_inventory(request):
     breweries = Brewery.objects.all()
     current_user = request.user
-    id = current_user.id
     user_data = UserProfile.objects.get(user_name = current_user)
     context = { 'user_data' : user_data
     }
