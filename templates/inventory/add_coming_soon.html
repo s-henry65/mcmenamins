@@ -12,8 +12,8 @@
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                 </div>
                 <div class="input-group mb-4">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Category</span>
-                    <input type="text" name="category" required
+                    <span class="input-group-text" id="inputGroup-sizing-default">SKU</span>
+                    <input type="text" name="sku" required
                         class="form-control bg-secondary bg-opacity-50 text-white border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                 </div>
@@ -39,7 +39,7 @@
                     <thead>
                         <tr class="bg-info bg-opacity-50">
                             <th scope="col">Beer</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">SKU</th>
                             <th scope="col">Finish Date</th>
                             <th scope="col">Description</th>
                             <th></th>
@@ -49,7 +49,7 @@
                         {% for kegs in keg_data %}
                         <tr>
                             <td> {{ kegs.beer }} </td>
-                            <td> {{ kegs.category }} </td>
+                            <td> {{ kegs.sku }} </td>
                             <td>{{ kegs.finish_date }} </td>
                             <td> {{ kegs.description }} </td>
                             <td><a href="{% url 'delete_upcoming' kegs.id brewery.pk %}" method="POST"

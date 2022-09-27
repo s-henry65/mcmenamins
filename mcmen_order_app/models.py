@@ -24,6 +24,7 @@ class OrderItem(models.Model):
     order_date = models.DateField()
     updated = models.DateField(auto_now=True)
     status = models.CharField(max_length=10, default='Pending')
+    archive = models.BooleanField(default=False)
     notes = models.CharField(max_length=300, blank=True)
     keg_count = models.ForeignKey(OrderItemCount, on_delete=models.SET_NULL, null=True)
 

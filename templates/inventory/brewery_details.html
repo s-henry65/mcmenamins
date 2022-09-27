@@ -89,7 +89,7 @@
                         <thead>
                             <tr class="bg-info bg-opacity-50">
                                 <th scope="col">Beer</th>
-                                <th scope="col">Category</th>
+                                <th scope="col">SKU</th>
                                 <th scope="col">Finish Date</th>
                                 <th scope="col">Description</th>
                             </tr>
@@ -98,7 +98,7 @@
                             {% for kegs in upcoming %}
                             <tr>
                                 <td> {{ kegs.beer }} </td>
-                                <td> {{ kegs.category }} </td>
+                                <td> {{ kegs.sku }} </td>
                                 <td> {{ kegs.finish_date }} </td>
                                 <td> {{ kegs.description }} </td>
 

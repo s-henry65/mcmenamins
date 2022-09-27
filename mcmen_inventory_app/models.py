@@ -18,7 +18,7 @@ class Kegs(models.Model):
     beer = models.CharField(max_length=30)
     brew_date = models.DateField()
     updated = models.DateField(auto_now=True)
-    category = models.CharField(max_length=20)
+    sku = models.CharField(max_length=20)
     brewery = models.ManyToManyField(Brewery)
     quantity = models.PositiveBigIntegerField()
 
@@ -49,7 +49,7 @@ class BrewLogComment(models.Model):
 
 class ComingSoon(models.Model):
     beer = models.CharField(max_length=30)
-    category = models.CharField(max_length=20)
+    sku = models.CharField(max_length=20)
     finish_date = models.DateField()
     description = models.CharField(max_length=75)
     brewery = models.ManyToManyField(Brewery)

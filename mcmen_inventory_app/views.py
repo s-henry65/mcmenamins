@@ -69,7 +69,7 @@ def search_inventory(request):
             else:
                 return render(request, 'inventory/search_inventory.html', context)
         else:
-            keg_totals = Kegs.objects.filter(category=key_word)
+            keg_totals = Kegs.objects.filter(sku=key_word)
             context = {
                 'breweries': breweries, 'keg_totals': keg_totals,
             }
@@ -108,10 +108,10 @@ def add_update_kegs(request, id):
     elif request.method == 'POST':
         beer = request.POST['beer']
         brew_date = request.POST['brew_date']
-        category = request.POST['category']
+        sku = request.POST['sku']
         quantity = request.POST['quantity']
         kegs = Kegs.objects.create(beer = beer, brew_date = brew_date, 
-        category = category, quantity = quantity)
+        sku = sku, quantity = quantity)
         kegs.brewery.add(brewery)
         return render(request, 'inventory/add_update_kegs.html', context)
 
@@ -125,7 +125,7 @@ def update_kegs(request, id, pk):
         return render(request, 'inventory/update_inventory.html', context)
     elif request.method == 'POST':
         keg.beer = request.POST['beer']
-        keg.category = request.POST['category']
+        keg.sku = request.POST['sku']
         keg.quantity = request.POST['quantity']
         keg.save()
         return redirect('add', pk)
@@ -143,10 +143,10 @@ def add_upcoming(request, id):
     elif request.method == 'POST':
         beer = request.POST['beer']
         finish_date = request.POST['finish_date']
-        category = request.POST['category']
+        sku = request.POST['sku']
         description = request.POST['text']
         kegs = ComingSoon.objects.create(beer = beer, finish_date = finish_date, 
-        category = category, description = description)
+        sku = sku, description = description)
         kegs.brewery.add(brewery)
         return render(request, 'inventory/add_coming_soon.html', context)
 
@@ -178,22 +178,19 @@ def update_orders(request, id, pk):
 @login_required
 def delete_keg(request, id, pk):
     keg = Kegs.objects.get(id = id)
-    # keg_data = Kegs.objects.filter(brewery = id)
     keg.delete()
     return redirect('add', pk)
 
 @login_required
 def delete_order(request, id, pk):
     order = OrderItem.objects.get(id = id)
-    # order_data = Order.objects.filter(order = id)
     order.delete()
     return redirect('brew_details', pk)
 
 @login_required
 def inventory_view(request, id):
     current_user = request.user
-    user_id = current_user.id
-    user_data = UserProfile.objects.get(id = user_id)
+    user_data = UserProfile.objects.get(user_name = current_user)
     user_data.view_pref = request.POST['inv_view']
     user_data.save()
     return redirect('brew_details', id)
@@ -201,8 +198,7 @@ def inventory_view(request, id):
 @login_required
 def total_inventory_view(request):
     current_user = request.user
-    user_id = current_user.id
-    user_data = UserProfile.objects.get(id = user_id)
+    user_data = UserProfile.objects.get(user_name = current_user)
     user_data.view_pref = request.POST['inv_view']
     user_data.save()
     return redirect('inventory')
@@ -219,7 +215,6 @@ def add_brewer_post(request):
     elif request.method == 'POST':
         title = request.POST['title']
         text = request.POST['text']
-        # pub_date = request.POST['pub_date']
         author = (current_user.first_name + ' ' + current_user.last_name)
         BrewLog.objects.create(author = author, title = title, text = text)
         return redirect('all_brew_posts')
