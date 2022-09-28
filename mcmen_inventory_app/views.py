@@ -83,7 +83,7 @@ def brewery_details(request, id):
     user_id = current_user.id
     user_data = UserProfile.objects.get(user_name = user_id)
     breweries = Brewery.objects.all()
-    orders = OrderItem.objects.filter(brewery = id)
+    orders = OrderItem.objects.filter(brewery = id, archive=False)
     brew_prop = Brewery.objects.get(id = id)
     property = Property.objects.all()
     keg_totals = Kegs.objects.filter(brewery = id)
@@ -92,7 +92,12 @@ def brewery_details(request, id):
         'keg_totals': keg_totals, 'property' : property, 'brew_prop' : brew_prop,
         'orders' : orders, 'breweries' : breweries, 'user_data': user_data, 'upcoming': upcoming,
         }
-    return render(request, 'inventory/brewery_details.html', context)
+    if orders.count() == 0:
+        messages.warning(request, 'There are no pending orders.')
+        return render(request, 'inventory/brewery_details.html', context)
+    else:
+        return render(request, 'inventory/brewery_details.html', context)
+
 
 @login_required
 def add_update_kegs(request, id):
@@ -244,3 +249,53 @@ def brew_post_details(request, id):
         post_connected = article
         BrewLogComment.objects.create(author = author, post_connected = post_connected, content = content)
         return redirect('all_brew_posts')
+
+@login_required
+def archive_order_item(request, id, pk):
+    order = OrderItem.objects.get(id=id)
+    order.archive = True
+    order.save()
+    return redirect('brew_details', pk)
+
+@login_required
+def order_item_archive(request):
+    orders = OrderItem.objects.filter(archive=True)
+    context = {'orders': orders,
+               }
+    return render(request, 'inventory/brewery_details.html', context)
+
+@login_required
+def search_order_items(request, id):
+    breweries = Brewery.objects.all()
+    brew_prop = Brewery.objects.get(id = id)
+    # property = Property.objects.all()
+    # print('ORDERS: ', orders)
+    context = {
+        'breweries': breweries, 'brew_prop': brew_prop, 'property': property,
+    }
+    if request.method == 'GET':
+        return render(request, 'inventory/search_order_items.html', context)
+    elif request.method == 'POST':
+        criteria = request.POST['criteria']
+        key_word = request.POST['key word']
+        if criteria == 'all':
+            orders = OrderItem.objects.filter(brewery = id, archive=True)
+            context = {
+                'breweries': breweries, 'brew_prop': brew_prop, 'orders': orders,
+            }
+            if orders.count() == 0:
+                messages.warning(request, (f'There are currently no orders for {brew_prop}. Check spelling and capitalization.'))
+                return render(request, 'inventory/search_order_items.html', context)
+            else:
+                return render(request, 'inventory/search_order_items.html', context)
+        elif criteria == 'property':
+            try:
+                prop_id = Property.objects.get(name = key_word)
+                orders = OrderItem.objects.filter(brewery = id, archive=True, property = prop_id)
+                context = {
+                    'breweries': breweries, 'brew_prop': brew_prop, 'orders': orders,
+                }
+                return render(request, 'inventory/search_order_items.html', context)
+            except:
+                messages.warning(request, (f'There are currently no orders for {key_word}. Check spelling and capitalization.'))
+                return render(request, 'inventory/search_order_items.html', context)

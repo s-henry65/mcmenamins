@@ -18,4 +18,7 @@ urlpatterns = [
     path('search_inventory/', views.search_inventory, name = 'search_inventory'),
     path('add_upcoming/<int:id>', views.add_upcoming, name = 'add_upcoming'),
     path('delete_upcoming/<int:id>/<pk>', views.delete_upcoming, name = 'delete_upcoming'),
+    path('order_item_archive/', views.order_item_archive, name = 'order_item_archive'),
+    path('archive_order_item/<int:id>/<pk>', views.archive_order_item, name = 'archive_order_item'),
+     path('search_order_items/<int:id>', views.search_order_items, name = 'search_order_items'),
    ]

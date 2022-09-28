@@ -36,7 +36,7 @@ def order(request, id):
         context = {'orders': orders, 'breweries': breweries, 'prop': prop, 'cart': cart,
                }
         if orders.count() == 0:
-            messages.warning(request, 'There are no closed orders. Check your cart.')
+            messages.warning(request, 'There are no pending orders. Check your cart.')
             return render(request, 'order/order.html', context)
         else:
             return render(request, 'order/order.html', context)
@@ -45,7 +45,7 @@ def order(request, id):
         context = {'orders': orders, 'breweries': breweries, 'prop': prop, 'cart': cart,
                }
         if orders.count() == 0:
-            messages.warning(request, 'There are no closed orders. Check your cart.')
+            messages.warning(request, 'There are no pending orders. Check your cart.')
             return render(request, 'order/order.html', context)
         else:
             return render(request, 'order/order.html', context)
@@ -162,13 +162,6 @@ def order_delivered(request, id):
     return render(request, 'user/dist_admin.html', context)
 
 @login_required
-def order_archive(request):
-    orders = Order.objects.filter(archive=True)
-    context = {'orders': orders,
-               }
-    return render(request, 'user/order_archive.html', context)
-
-@login_required
 def close_order(request, id):
     orders = Order.objects.filter(archive=False)
     context = {'orders': orders,
@@ -187,3 +180,10 @@ def archive_order(request, id):
     order.archive = True
     order.save()
     return render(request, 'user/dist_admin.html', context)
+
+@login_required
+def order_archive(request):
+    orders = Order.objects.filter(archive=True)
+    context = {'orders': orders,
+               }
+    return render(request, 'user/order_archive.html', context)

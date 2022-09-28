@@ -57,14 +57,11 @@
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-success">Logout</button>
             </form>
-            
         </div>
     </nav>
 
     <div class="container"></div>
-
     {% block content %} {% endblock %}
-
     {%if messages%}
     {%for message in messages%}
     <div class="alert text-center" {{message.tags}}>
