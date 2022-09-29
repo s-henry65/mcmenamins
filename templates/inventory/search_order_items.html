@@ -11,14 +11,41 @@
                         class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         <option>Select</option>
-                        <option value="all">All</option>
                         <option value="property">Property</option>
-                        <option value="sku">SKU</option>
+                        <option value="date">Date</option>
+                        <option value="prop_date">Property & Date</option>
                     </select>
                 </div>
                 <div class="input-group mb-4">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Key Word</span>
-                    <input type="text" name="key word"
+                    <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
+                    <input type="text" name="property"
+                        class="form-control bg-secondary bg-opacity-50 text-white border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Month</span>
+                    <select name="order_month"
+                        class="form-control bg-secondary text-white bg-opacity-50 border border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <option>Select</option>
+                        <option value="all">All</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Year</span>
+                    <input type="text" name="order_year"
                         class="form-control bg-secondary bg-opacity-50 text-white border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                 </div>
@@ -40,7 +67,7 @@
             </div>
             {% for order in orders reversed %}
             <div
-                class="table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 mb-4 border border-secondary">
+                class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-4 border border-secondary">
                 <table class="table text-white">
                     <thead>
                         <tr class="bg-info bg-opacity-50">

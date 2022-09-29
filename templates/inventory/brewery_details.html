@@ -43,7 +43,7 @@
                 <h3>Orders</h3>
             </div>
             <div class="col-auto mt-2">
-                <a href="{% url 'search_order_items' brew_prop.id %}" class="btn btn btn-outline-success bg-black bg-opacity-50">Search Archive</a>
+                <a href="{% url 'search_order_items' brew_prop.id %}" class="btn btn btn-outline-success">Search Archive</a>
             </div>
                 <div class="row">
                     <div class="col-md-12 mb-2">
@@ -58,7 +58,7 @@
                         {%endif%}
                         {% for order in orders reversed %}
                         <div
-                            class="table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 mb-2 border border-secondary">
+                            class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2 border border-secondary">
                             <table class="table text-white">
                                 <thead>
                                     <tr class="bg-info bg-opacity-50">
@@ -102,7 +102,7 @@
                         <h3>Beer Coming Soon</h3>
 
                         <div
-                            class=" mt-2 mb-3 table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 border border-secondary">
+                            class=" mt-2 mb-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
                             <table class="table text-white">
                                 <thead>
                                     <tr class="bg-info bg-opacity-50">

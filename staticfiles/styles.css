@@ -18,6 +18,15 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.plaid {
+    background-image: url("/uploaded_files/images/bg_tarten.jpg");
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .alert {
     color:crimson;
 }

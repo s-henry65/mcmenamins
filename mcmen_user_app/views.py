@@ -68,10 +68,8 @@ def create_user_profile(request, id):
 
 def update_profile(request):
     current_user = request.user
-    # id = current_user.id
     user_data = UserProfile.objects.get(user_name = current_user)
     props = Property.objects.all()
-    # print(user_data.id)
     context = { 'props' : props, 'user_data' : user_data
     }
     if request.method == 'GET':
