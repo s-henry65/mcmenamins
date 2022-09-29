@@ -1,9 +1,9 @@
 {% extends 'base_orders.html' %} {% block content %}
 <div class="container">
-    <div class="row my-2">
-        <div class="col-md-12">
+    <div class="row my-2 justify-content-center">
+        <div class="col-md-10">
             <h3 class="my-3 text-center">Open Cart for {{ prop.name }} {{ order.keg_count}}</h3>
-            <div class="table-responsive form-control rounded bg-black text-white bg-opacity-50 p-3 mb-2
+            <div class="table-responsive form-control rounded bg-black text-white bg-opacity-75 p-3 mb-4
                         border border-secondary mb-2">
                 {% for order in order %}
                 <table class="table text-white">
@@ -53,11 +53,11 @@
                     {% csrf_token %}
                     <div class="input-group mb-4">
                         <span class="input-group-text">Delivery Notes</span>
-                        <textarea class="form-control bg-black bg-opacity-50 text-white border border-secondary"
+                        <textarea class="form-control bg-dark bg-opacity-75 text-white border border-secondary"
                             rows="2" name="text" aria-label="With textarea"></textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-sm btn-success">Submit Order</button>
+                <button type="submit" class="btn btn-outline-success">Submit Order</button>
                 </form>
             {% endfor %}
         </div>

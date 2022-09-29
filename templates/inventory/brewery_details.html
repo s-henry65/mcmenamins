@@ -43,91 +43,90 @@
                 <h3>Orders</h3>
             </div>
             <div class="col-auto mt-2">
-                <a href="{% url 'search_order_items' brew_prop.id %}" class="btn btn btn-outline-success">Search Archive</a>
+                <a href="{% url 'search_order_items' brew_prop.id %}" class="btn btn btn-outline-success mb-2">Search Archive</a>
             </div>
-                <div class="row">
-                    <div class="col-md-12 mb-2">
+        </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
 
-                        <div class="container"></div>
-                        {%if messages%}
-                        {%for message in messages%}
-                        <div class="alert text-center" {{message.tags}}>
-                            {{message}}
-                        </div>
-                        {%endfor%}
-                        {%endif%}
-                        {% for order in orders reversed %}
-                        <div
-                            class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2 border border-secondary">
-                            <table class="table text-white">
-                                <thead>
-                                    <tr class="bg-info bg-opacity-50">
-                                        <th scope="col">Beer/size</th>
-                                        <th scope="col">Qty.</th>
-                                        <th scope="col">Property</th>
-                                        <th scope="col">Order Date</th>
-                                        <th scope="col">Manager</th>
-                                        <th scope="col">Updated</th>
-                                        <th scope="col">Status</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td> {{ order.beer }} </td>
-                                        <td> {{ order.quantity }} </td>
-                                        <td> {{ order.property }} </td>
-                                        <td> {{ order.order_date }} </td>
-                                        <td> {{ order.manager.first_name}} {{order.manager.last_name}}</td>
-                                        <td> {{ order.updated}} </td>
-                                        <td> {{ order.status }} </td>
-                                        <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
-                                                class="btn btn-sm btn-warning">Update</a></td>
-                                        <td><a href="{% url 'cancel' order.id brew_prop.id %}" method="POST"
-                                                class="btn btn-sm btn-danger">Delete</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {{ order.notes }}
-                        </div>
-                        <a href="{% url 'archive_order_item' order.id brew_prop.id %}"
-                            class="btn btn-sm btn-outline-success mb-4">Archive Order</a>
-                        {% endfor %}
+                    <div class="container"></div>
+                    {%if messages%}
+                    {%for message in messages%}
+                    <div class="alert text-center" {{message.tags}}>
+                        {{message}}
                     </div>
+                    {%endfor%}
+                    {%endif%}
+                    {% for order in orders reversed %}
+                    <div
+                        class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2 border border-secondary">
+                        <table class="table text-white">
+                            <thead>
+                                <tr class="bg-info bg-opacity-50">
+                                    <th scope="col">Beer/size</th>
+                                    <th scope="col">Qty.</th>
+                                    <th scope="col">Property</th>
+                                    <th scope="col">Order Date</th>
+                                    <th scope="col">Manager</th>
+                                    <th scope="col">Updated</th>
+                                    <th scope="col">Status</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> {{ order.beer }} </td>
+                                    <td> {{ order.quantity }} </td>
+                                    <td> {{ order.property }} </td>
+                                    <td> {{ order.order_date }} </td>
+                                    <td> {{ order.manager.first_name}} {{order.manager.last_name}}</td>
+                                    <td> {{ order.updated}} </td>
+                                    <td> {{ order.status }} </td>
+                                    <td> <a href="{% url 'order_update' order.id brew_prop.id %}"
+                                            class="btn btn-sm btn-warning">Update</a></td>
+                                    <td><a href="{% url 'cancel' order.id brew_prop.id %}" method="POST"
+                                            class="btn btn-sm btn-danger">Delete</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{ order.notes }}
+                    </div>
+                    <a href="{% url 'archive_order_item' order.id brew_prop.id %}"
+                        class="btn btn-sm btn-outline-success mb-4">Archive Order</a>
+                    {% endfor %}
                 </div>
-                <div class="row">
-                    <div class="col-md-12 mb-2">
-                        {% if upcoming %}
-                        <h3>Beer Coming Soon</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    {% if upcoming %}
+                    <h3>Beer Coming Soon</h3>
+                    <div class=" mt-2 mb-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+                        <table class="table text-white">
+                            <thead>
+                                <tr class="bg-info bg-opacity-50">
+                                    <th scope="col">Beer</th>
+                                    <th scope="col">SKU</th>
+                                    <th scope="col">Finish Date</th>
+                                    <th scope="col">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for kegs in upcoming %}
+                                <tr>
+                                    <td> {{ kegs.beer }} </td>
+                                    <td> {{ kegs.sku }} </td>
+                                    <td> {{ kegs.finish_date }} </td>
+                                    <td> {{ kegs.description }} </td>
 
-                        <div
-                            class=" mt-2 mb-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
-                            <table class="table text-white">
-                                <thead>
-                                    <tr class="bg-info bg-opacity-50">
-                                        <th scope="col">Beer</th>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">Finish Date</th>
-                                        <th scope="col">Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for kegs in upcoming %}
-                                    <tr>
-                                        <td> {{ kegs.beer }} </td>
-                                        <td> {{ kegs.sku }} </td>
-                                        <td> {{ kegs.finish_date }} </td>
-                                        <td> {{ kegs.description }} </td>
-
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            {% endif %}
-                        </div>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-        {% endblock %}
+    </div>
+    {% endblock %}

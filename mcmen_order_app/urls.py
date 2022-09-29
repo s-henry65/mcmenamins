@@ -13,5 +13,5 @@ urlpatterns = [
     path('close_order/<int:id>', views.close_order, name = 'close_order'),
     path('archive_order/<int:id>', views.archive_order, name = 'archive_order'),
     path('order_archive/', views.order_archive, name = 'order_archive'),
-    # path('open_cart/', views.open_cart, name = 'open_cart'),
+    path('search_pub_orders/<int:id>', views.search_pub_orders, name = 'search_pub_orders'),
 ]

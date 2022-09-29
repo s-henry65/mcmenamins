@@ -1,0 +1,90 @@
+{% extends 'base_orders.html' %} {% block content %}
+<div class="container-sm p-3">
+    <div class="row my-2">
+        <div class="col-md-3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <h3 class="mb-3">Search</h3>
+                
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Month</span>
+                    <select name="order_month" required
+                        class="form-control bg-dark text-white bg-opacity-75 border border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <option value="" disabled selected hidden>Select</option>
+                        <option value="all">All</option>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Year</span>
+                    <input type="text" name="order_year" required
+                        class="form-control bg-dark bg-opacity-75 text-white border-secondary"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
+                </div>
+                <button type="submit" class="mb-4 btn btn-outline-success">Search</button><br>
+                
+            </form>
+        </div>
+        <div class="col-md-9">
+            <h3 class="mb-3">Order Archive </h3>
+            
+            {% for order in orders reversed %}
+            <div class="col-md-9 table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 mb-2
+            border border-secondary mb-4">
+                <table class="table text-white">
+                    <thead>
+                        <tr class="bg-info bg-opacity-50">
+                            <th scope="col">Property</th>
+                            <th scope="col">Order Date</th>
+                            <th scope="col">Manager</th>
+                            <th scope="col">Cart Status</th>
+                            <th scope="col">Order Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ order.property.name }} </td>
+                            <td>{{ order.order_date }} </td>
+                            <td>{{ order.manager.first_name }} {{order.manager.last_name}} </td>
+                            <td>{{ order.cart_status }} </td>
+                            <td>{{ order.status }} </td>                          
+                        </tr>
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Beer</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Brewery</th>
+                                <th scope="col">Updated</th>
+                                <th scope="col">Keg Status</th>
+                            </tr>
+                        </thead>
+                        {% for keg in order.order_items.all %}
+                        <tr>
+                            <td>{{ keg.beer }} </td>
+                            <td>{{ keg.quantity }} </td>
+                            <td>{{ keg.brewery }} </td>
+                            <td>{{ keg.updated }} </td>           
+                            <td>{{ keg.status }} </td>                        
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {{ order.notes }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

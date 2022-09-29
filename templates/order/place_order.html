@@ -9,7 +9,7 @@
                     <div class="input-group mb-4">
                         <span class="input-group-text" id="inputGroup-sizing-default">Beer/Size</span>
                         <select name="beer"
-                            class="form-control bg-black bg-opacity-50 text-white border border-secondary"
+                            class="form-control bg-dark bg-opacity-75 text-white border border-secondary"
                             aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                             {% for keg in keg_data %}
                             <option value="{{keg.id}}">{{keg.beer}}</option>
@@ -19,12 +19,12 @@
                     <div class="input-group mb-4">
                         <span class="input-group-text">Quantity</span>
                         <input name="quantity"
-                            class="form-control bg-black bg-opacity-50 text-white border border-secondary"
+                            class="form-control bg-dark bg-opacity-75 text-white border border-secondary"
                             aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                     </div>
                     <div class="input-group mb-4">
                         <span class="input-group-text">Notes</span>
-                        <textarea class="form-control bg-black bg-opacity-50 text-white border border-secondary"
+                        <textarea class="form-control bg-dark bg-opacity-75 text-white border border-secondary"
                             rows="4" name="text" aria-label="With textarea"></textarea>
                     </div>
                     <button onclick="myFunction()" type="submit" id="liveAlertBtn"
@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-md-8 mb-3">
-            <div class=" mt-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+            <div class=" mt-3 table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 border border-secondary">
                 <table class="table text-white">
                     <thead>
                         <tr class="bg-info bg-opacity-50">
@@ -65,7 +65,7 @@
             {% if upcoming %}
             <h3>Beer Coming Soon</h3>
             <div
-                class=" mt-3 mb-3 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 border border-secondary">
+                class=" mt-3 mb-3 table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 border border-secondary">
                 <table class="table text-white">
                     <thead>
                         <tr class="bg-info bg-opacity-50">
