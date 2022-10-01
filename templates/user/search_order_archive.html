@@ -1,4 +1,4 @@
-{% extends 'base_inventory.html' %} {% block content %}
+{% extends 'base_user.html' %} {% block content %}
 <div class="container-sm p-3">
     <div class="row my-2">
         <div class="col-md-3">
@@ -8,7 +8,7 @@
                 <div class="input-group mb-4">
                     <span class="input-group-text">Criteria</span>
                     <select name="criteria" required
-                        class="form-control bg-dark text-white bg-opacity-50 border border-secondary"
+                        class="form-control bg-dark text-white bg-opacity-75 border border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         <option value="" disabled selected hidden>Select</option>
                         <option value="property">Property</option>
@@ -19,13 +19,13 @@
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Property</span>
                     <input type="text" name="property"
-                        class="form-control bg-dark bg-opacity-50 text-white border-secondary"
+                        class="form-control bg-dark bg-opacity-75 text-white border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                 </div>
                 <div class="input-group mb-4">
                     <span class="input-group-text">Month</span>
                     <select name="order_month"
-                        class="form-control bg-dark text-white bg-opacity-50 border border-secondary"
+                        class="form-control bg-dark text-white bg-opacity-75 border border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         <option value="all">All</option>
                         <option value="01">January</option>
@@ -45,50 +45,55 @@
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">Year</span>
                     <input type="text" name="order_year"
-                        class="form-control bg-dark bg-opacity-50 text-white border-secondary"
+                        class="form-control bg-dark bg-opacity-75 text-white border-secondary"
                         aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                 </div>
                 <button type="submit" class="mb-4 btn btn-outline-success">Search</button><br>
-                <a href="{% url 'brew_details' brew_prop.id %}" class="mb-4 btn btn-outline-success">
-                    Return</a>
+                
             </form>
         </div>
         <div class="col-md-9">
             <h3 class="mb-3">Order Archive </h3>
-            <div class="container">
-                {%if messages%}
-                {%for message in messages%}
-                <div class="alert text-center" {{message.tags}}>
-                    {{message}}
-                </div>
-                {%endfor%}
-                {%endif%}
-            </div>
+            
             {% for order in orders reversed %}
             <div
-                class="table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-4 border border-secondary">
+                class="table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 mb-4 border border-secondary">
                 <table class="table text-white">
                     <thead>
                         <tr class="bg-info bg-opacity-50">
-                            <th scope="col">Beer/size</th>
-                            <th scope="col">Qty.</th>
                             <th scope="col">Property</th>
                             <th scope="col">Order Date</th>
                             <th scope="col">Manager</th>
-                            <th scope="col">Updated</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Upadated</th>
+                            <th scope="col">Order Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td> {{ order.beer }} </td>
-                            <td> {{ order.quantity }} </td>
-                            <td> {{ order.property }} </td>
-                            <td> {{ order.order_date }} </td>
-                            <td> {{ order.manager.first_name}} {{order.manager.last_name}}</td>
-                            <td> {{ order.updated}} </td>
-                            <td> {{ order.status }} </td>
+                            <td>{{ order.property.name }} </td>
+                            <td>{{ order.order_date }} </td>
+                            <td>{{ order.manager.first_name }} {{order.manager.last_name}} </td>
+                            <td>{{ order.updated}} </td>
+                            <td>{{ order.status }} </td>
                         </tr>
+                        <thead>
+                            <tr class="bg-success bg-opacity-50">
+                                <th scope="col">Beer</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Brewery</th>
+                                <th scope="col">Upadated</th>
+                                <th scope="col">Keg Status</th>        
+                            </tr>
+                        </thead>
+                        {% for keg in order.order_items.all %}
+                        <tr>
+                            <td>{{ keg.beer }} </td>
+                            <td>{{ keg.quantity }} </td>
+                            <td>{{ keg.brewery }} </td>
+                            <td>{{ keg.updated }} </td>
+                            <td>{{ keg.status }} </td>  
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
                 {{ order.notes }}

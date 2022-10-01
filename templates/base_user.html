@@ -22,11 +22,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/dist_admin/">Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/order_archive/">Archive</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Orders
+                    </a>
+                    <ul class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item bg-secondary text-white" href="/dist_admin/">Pending
+                                Orders</a>
+                        </li>
+                        <li><a class="dropdown-item bg-secondary text-white"
+                                href="/search_order_archive/">Order Archive</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/create_user/">Add User</a>
@@ -47,7 +55,9 @@
             </form>
         </div>
     </nav>
-
+    
+    <div class="container"></div>
+    {% block content %} {% endblock %}
     {%if messages%}
     {%for message in messages%}
     <div class="alert text-center" {{message.tags}}>
@@ -55,10 +65,6 @@
     </div>
     {%endfor%}
     {%endif%}
-    <div class="container"></div>
-
-    {% block content %} {% endblock %}
-
     
     <footer class="mt-auto">
         <div class="container mb-4">

@@ -1,10 +1,10 @@
 {% extends 'base_user.html' %} {% block content %}
 <div class="container p-3">
     <h3 class="mt-2 text-center"> Distribution Keg Orders</h3>
-    <div class="row my-4">
-        <div class="col-md-12">
+    <div class="row my-4 justify-content-center">
+        <div class="col-md-10">
             {% for order in orders reversed %}
-            <div class="col-md-12 table-responsive form-control rounded bg-black bg-opacity-50 text-white p-3 mb-2
+            <div class="col-md-12 table-responsive form-control rounded bg-black bg-opacity-75 text-white p-3 mb-2
             border border-secondary mb-2">
                 <table class="table text-white">
                     <thead>
@@ -13,7 +13,6 @@
                             <th scope="col">Order Date</th>
                             <th scope="col">Manager</th>
                             <th scope="col">Upadated</th>
-                            <th scope="col">Keg Total</th>
                             <th scope="col">Cart Status</th>
                             <th scope="col">Order Status</th>
                         </tr>
@@ -24,7 +23,6 @@
                             <td>{{ order.order_date }} </td>
                             <td>{{ order.manager.first_name }} {{order.manager.last_name}} </td>
                             <td>{{ order.updated}} </td>
-                            <td>{{ order.keg_count }} </td>
                             <td>{{ order.cart_status }} </td>
                             <td>{{ order.status }} </td>
                         </tr>
@@ -35,7 +33,6 @@
                                 <th scope="col">Brewery</th>
                                 <th scope="col">Upadated</th>
                                 <th></th>
-                                <th></th>
                                 <th scope="col">Keg Status</th>
                             </tr>
                         </thead>
@@ -45,7 +42,6 @@
                             <td>{{ keg.quantity }} </td>
                             <td>{{ keg.brewery }} </td>
                             <td>{{ keg.updated }} </td>
-                            <th></th>
                             <th></th>
                             <td>{{ keg.status }} </td>
                         </tr>

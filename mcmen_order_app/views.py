@@ -123,6 +123,7 @@ def place_order(request, id):
         order.keg_count += item.quantity
         # print(order.keg_count)
         order.save()
+        messages.warning(request, 'Keg(s) successfully added!')
         return redirect('place_order', id)
 
 
@@ -196,11 +197,91 @@ def archive_order(request, id):
 
 
 @login_required
-def order_archive(request):
-    orders = Order.objects.filter(archive=True)
-    context = {'orders': orders,
-               }
-    return render(request, 'user/order_archive.html', context)
+def search_order_archive(request):
+    # orders = Order.objects.filter(archive=True)
+    if request.method == 'GET':
+        return render(request, 'user/search_order_archive.html')
+    elif request.method == 'POST':
+        criteria = request.POST['criteria']
+        if criteria == 'property':
+            key_word = request.POST['property']
+            try:
+                prop_id = Property.objects.get(name=key_word)
+                orders = Order.objects.filter(archive=True, property=prop_id)
+                context = {
+                    'orders': orders,
+                }
+                return render(request, 'user/search_order_archive.html', context)
+            except:
+                messages.warning(request, (f'There are no orders for {key_word}. Check spelling and capitalization.'))
+                return render(request, 'user/search_order_archive.html')
+
+        elif criteria == 'date':
+            order_month = request.POST['order_month']
+            order_year = request.POST['order_year']
+            if order_month == 'all':
+                orders = Order.objects.filter(archive=True, order_date__year=order_year)
+                context = {
+                    'orders': orders,
+                }
+                if orders.count() == 0:
+                    messages.warning(
+                        request, (f'There are no orders for {order_year}. Check date.'))
+                    return render(request, 'user/search_order_archive.html')
+                else:
+                    return render(request, 'user/search_order_archive.html', context)
+            else:
+                orders = Order.objects.filter(archive=True, order_date__year=order_year,
+                                                  order_date__month=order_month)
+                context = {
+                    'orders': orders,
+                }
+                if orders.count() == 0:
+                    messages.warning(
+                        request, (f'There are no orders for {order_month}, {order_year}. Check date.'))
+                    return render(request, 'user/search_order_archive.html')
+                else:
+                    return render(request, 'user/search_order_archive.html', context)
+
+        elif criteria == 'prop_date':
+            key_word = request.POST['property']
+            order_month = request.POST['order_month']
+            order_year = request.POST['order_year']
+            if order_month == 'all':
+                try:
+                    prop_id = Property.objects.get(name=key_word)
+                    orders = Order.objects.filter(archive=True, property=prop_id, order_date__year=order_year)
+                    context = {
+                        'orders': orders,
+                    }
+                    if orders.count() == 0:
+                        messages.warning(
+                        request, (f'There are no orders for {key_word}, {order_year}. Check date, spelling and capitalization.'))
+                        return render(request, 'user/search_order_archive.html')
+                    else:
+                        return render(request, 'user/search_order_archive.html', context)
+                except:
+                    messages.warning(
+                    request, (f'There are no orders for {key_word}, {order_year}. Check date, spelling and capitalization.'))
+                    return render(request, 'user/search_order_archive.html')
+            else:
+                try:
+                    prop_id = Property.objects.get(name=key_word)
+                    orders = Order.objects.filter(archive=True, order_date__year=order_year,
+                             property=prop_id, order_date__month=order_month)
+                    context = {
+                        'orders': orders,
+                    }
+                    if orders.count() == 0:
+                        messages.warning(
+                        request, (f'There are no orders for {key_word}, {order_month}, {order_year}. Check date, spelling and capitalization.'))
+                        return render(request, 'user/search_order_archive.html')
+                    else:
+                        return render(request, 'user/search_order_archive.html', context)
+                except:
+                    messages.warning(
+                    request, (f'There are no orders for {key_word}, {order_month}, {order_year}. Check date, spelling and capitalization.'))
+                    return render(request, 'user/search_order_archive.html')
 
 
 @login_required
