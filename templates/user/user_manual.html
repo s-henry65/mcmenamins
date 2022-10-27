@@ -1,0 +1,117 @@
+{% extends 'base_form.html' %} {% block content %}
+<div class="container-sm">
+    <div class="col-md-12 text-center">
+        <h3>User Guide</h3>
+    </div>
+
+    <div class='router mb-2'>Brewery Managers</div>
+    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
+        <p>
+        <h5 class="text-secondary">Company Inventory</h5>
+        Click "McInventory" and select "Total Inventory" from the menu. Data will display as a graph or table.<br>
+        Change your data preference below the display.<br>
+        Select "Search Inventory" under "Total Inventory" to look for a specific SKU or beer name and keg size.<br>
+        Fill out the form on the left side including "Criteria" and "Key Word" and click "Search". Spelling and
+        capitalization matter.<br>
+        Search results display on the right with the option to go directly to the brewery home page.
+        </p>
+        <p>
+        <h5 class="text-secondary">Brewery Home Page</h5>
+        Click "Breweries" in the header and select your location from the menu.<br>
+        Inventory data is first, followed by orders and the optional "Beer Coming Soon" table which is valuable for pub
+        managers.<br>
+        From this page inventory is controlled and orders can be approved, deleted and archived.
+        </p>
+        <p>
+        <h5 class="text-secondary">Orders</h5>
+        To approve, click "Update" and fill out the form on left. Change status, adjust quantity if needed and click
+        "Submit".<br>
+        The distribution manager needs all oders to be approved prior to scheduling delivery.<br>
+        Click "Archive Order" below and left of each table to remove from home page.<br>
+        To search orders, click "Search Archive" on the right and fill out the form on left. You can search by date,
+        property or both.<br>
+        Please note: spelling and capitalization matter.
+        </p>
+        <p>
+        <h5 class="text-secondary">Inventory Control</h5>
+        Click "Add/Update Inventory" on the top/right of page. Current inventory will display on the right and "Add
+        Kegs" form on left.<br>
+        To edit keg inventory, click "Update" for the target beer/size. Name, SKU and quantity are adjustable. Click
+        "Submit" when done.<br>
+        To add to inventory, fill out "Add Kegs" form on the left and click "Submit". All fields are required and
+        spelling/capitalization matter.
+        </p>
+        <p>
+        <h5 class="text-secondary">Coming Soon</h5>
+        Click "Add/Update Upcoming" on the top/right of page. Current listings will be on the right and "Add Beer" form
+        on left.<br>
+        Fill out "Add Beer" form and click "Submit" to add listing. The "Finish Date" will allow pub managers to plan
+        future orders.
+        </p>
+    </div>
+
+    <div class='router mb-2'>Distribution Managers</div>
+    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
+        <p>
+        <h5 class="text-secondary">Orders</h5>
+        From the "Departments" page, click "Distribution Admin" found below the sun logo. This will not be visable if
+        you are not authorized.<br>
+        The home page is "Orders". Tables will diplay recent and pending orders with cart, keg and order status on the
+        right.<br>
+        Update completed orders by clicking on "Order Delivered" on lower/left.<br>
+        Click on "Archive Order" to remove from the order page.
+        </p>
+        <p>
+        <h5 class="text-secondary">Search Order Archive</h5>
+        Click "Orders" in header and select "Search Archive" in menu.<br>
+        Fill out form on the left side. You can search by property, date or both. Select "All" for an entire year.
+        Spelling/capitalization matter.<br>
+        The results display in tables on the right.
+        </p>
+    </div>
+
+    <div class='router mb-2'>Drivers</div>
+    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
+        <p>
+        <h5 class="text-secondary">Routes</h5>
+        This section provides valuable information to the new driver or for a driver covering an unknown route.<br>
+        Click "Routes" in the header and select "All Routes". Routes will be listed by truck number and day.<br>
+        For specific results, select "Search Routes" and enter truck number and day into the form and click
+        "Submit".<br>
+        Click on the property code for detailed information including weather, picture, contacts, instructions and
+        map.
+        </p>
+    </div>
+
+    <div class='router mb-2'>Pub Managers</div>
+    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
+        <p>
+        <h5 class="text-secondary">Place an Order</h5>
+        Click "Place Order" in header and select your assigned brewery from menu.<br>
+        The table on the right side shows the current inventory and the last time it was updated.<br>
+        Fill out the form on the left side. You can also include a request or message to the brewery.<br>
+        Click "Add to Cart". The quantity will appear next to the cart. Continue to add kegs as needed.<br>
+        Per brewery approval, kegs from multiple locations can be in one cart.<br>
+        Look for "Beer Coming Soon" table at the bottom for info on the beer you may want, but is not yet available.<br>
+        Click the shopping cart anytime to see order details. To adjust quantity delete item and re-enter.<br>
+        Click "Submit Order" when finished. You can also include a message to the distribution manager.
+        </p>
+        <p></p>
+        <h5 class="text-secondary">Viewing Orders</h5>
+        Click "Orders" and select "Pending Orders" from menu.<br>
+        Recent and pending orders will be displayed in tables with the keg and order status on the right.<br>
+        Once the brewery had approved the kegs, the distribution manager will schedule delivery and update status.<br>
+        After the order has been delivered, the distribution manager will archive the order removing it from here.
+        </p>
+        <p>
+        <h5 class="text-secondary">Search Order Archive</h5>
+        Click "Orders" and select "Order Archive" from menu.<br>
+        Fill out the form on the left. Select "All" to search an entire year. Otherwise, select month and year and click
+        "Search".<br>
+        The results display in tables on the right.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

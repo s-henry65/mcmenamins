@@ -16,9 +16,14 @@ def order_index(request):
     breweries = Brewery.objects.all()
     current_user = request.user
     user_data = UserProfile.objects.get(user_name=current_user)
-    context = {
-        'breweries': breweries, 'user_data': user_data,
-    }
+    try:
+        cart = Order.objects.get(manager=current_user, archive=False, cart_status='Open')
+        context = {'breweries': breweries, 'user_data': user_data, 'cart': cart,
+        }
+    except:
+        context = {
+            'breweries': breweries, 'user_data': user_data,
+        }
     if 'Manager' in user_data.job_title or current_user.is_staff:
         return render(request, 'order/order_index.html', context)
     else:
@@ -36,7 +41,7 @@ def order(request, id):
     try:
         cart = Order.objects.get(manager=id, archive=False, cart_status='Open')
         context = {'orders': orders, 'breweries': breweries, 'prop': prop, 'cart': cart,
-                   }
+        }
         if orders.count() == 0:
             messages.warning(
                 request, 'There are no pending orders. Check your cart.')

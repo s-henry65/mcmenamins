@@ -133,3 +133,6 @@ def contacts(request):
         'dist_manager' : dist_manager
         }
   return render(request, 'user/contacts.html', context)
+
+def user_manual(request):
+    return render(request, 'user/user_manual.html')

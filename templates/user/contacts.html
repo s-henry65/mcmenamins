@@ -52,30 +52,6 @@
         </table>
     </div>
 
-    <div class='router mb-2'>Drivers</div>
-    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
-        <table class="table text-white">
-            <thead>
-                <tr class="bg-info bg-opacity-50">
-                    <th scope="col">Employee</th>
-                    <th scope="col">Property</th>
-                    <th scope="col">Email Address</th>
-                    <th scope="col">Phone Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for employee in drive_staff %}
-                <tr>
-                    <td> {{ employee.last_name }}, {{ employee.first_name}} </td>
-                    <td> {{ employee.home_base.name }} </td>
-                    <td> {{ employee.email }} </td>
-                    <td> {{ employee.phone_num }} </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
     <div class='router mb-2'>Brewery Managers</div>
     <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
         <table class="table text-white">
@@ -113,6 +89,30 @@
             </thead>
             <tbody>
                 {% for employee in dist_manager %}
+                <tr>
+                    <td> {{ employee.last_name }}, {{ employee.first_name}} </td>
+                    <td> {{ employee.home_base.name }} </td>
+                    <td> {{ employee.email }} </td>
+                    <td> {{ employee.phone_num }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class='router mb-2'>Drivers</div>
+    <div class="mb-3 p-3 form-control text-white bg-black bg-opacity-50 border border-secondary">
+        <table class="table text-white">
+            <thead>
+                <tr class="bg-info bg-opacity-50">
+                    <th scope="col">Employee</th>
+                    <th scope="col">Property</th>
+                    <th scope="col">Email Address</th>
+                    <th scope="col">Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in drive_staff %}
                 <tr>
                     <td> {{ employee.last_name }}, {{ employee.first_name}} </td>
                     <td> {{ employee.home_base.name }} </td>
